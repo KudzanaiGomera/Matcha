@@ -5,11 +5,10 @@
 # Installation
 
   Go to : 
-  
-  matcha/
-  >install python3,
-  >pip3,flask
-  >python3.run.py
+  --matcha/
+  > install python3,
+  > pip3,flask
+  > python3.run.py
   
   Enjoy!
   
