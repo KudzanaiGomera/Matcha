@@ -33,11 +33,11 @@ go to your browser and paste
 
 >$ cd matcha
 
->$ pip install flask
+>$ pip3 install flask
 
->$ python app.py  
+>$ python3 app.py  
 or 
->$ python ./app.py
+>$ python3 ./app.py
 
 go to your browser and paste
 
