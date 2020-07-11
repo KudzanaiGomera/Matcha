@@ -5,11 +5,45 @@
 # Installation
 
   Go to : 
-  --matcha/
-  > install python3,
-  > pip3,flask
-  > python3.run.py
   
+# Windows: run these commads
+
+> git clone https://github.com/KudzanaiGomera/Matcha.git
+
+> cd to Matcha directory
+
+> cd matcha
+
+> pip install flask
+
+> python app.py  
+or 
+> python .\app.py
+
+go to your browser and paste
+
+> http://127.0.0.1:5000/matcha
+
+ 
+# Mac/Linux: run these commads
+
+>$ git clone https://github.com/KudzanaiGomera/Matcha.git
+
+>$ cd to Matcha directory
+
+>$ cd matcha
+
+>$ pip install flask
+
+>$ python app.py  
+or 
+>$ python ./app.py
+
+go to your browser and paste
+
+>$ http://127.0.0.1:5000/matcha
+  
+
   Enjoy!
   
 # Website overview
