@@ -1,0 +1,11 @@
+sql = "CREATE TABLE  IF NOT EXISTS users(
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        username VARCHAR(50) NOT NULL UNIQUE,
+        firstname VARCHAR() NOT NULL UNIQUE,
+        lastname VARCHAR() NOT NULL UNIQUE,
+        password VARCHAR(300) NOT NULL,
+        email VARCHAR(50) NOT NULL UNIQUE,
+        vkey VARCHAR(250) NOT NULL,
+        user_email_status enum('not verified','verified') NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )";

@@ -146,3 +146,61 @@ body.loggedin {
 	padding: 5px;
 	margin: 0 0 10px 0;
 }
+
+button {
+	color: white;
+}
+
+.profile_title{
+	text-align: center;
+}
+
+.content-section {
+	background: white;
+	padding: 10px 20px;
+	border-radius: 3px;
+	margin-bottom: 20px;
+	margin-top: 10px;
+	justify-content: center;
+	display: flex;
+}
+
+.content-section2 {
+	background: white;
+	padding: 5px 10px;
+	border-radius: 3px;
+	margin-bottom: 15px;
+	margin-top: 15px;
+	justify-content: center;
+	display: flex;
+}
+
+.account-img {
+	height: 125px;
+	width: 125px;
+	margin-right: 20px;
+	margin-bottom: 16px;
+}
+
+.fas-fa-cog {
+	height: 70px;
+	width: 70px;
+	margin-right: 20px;
+	margin-bottom: 16px;
+	font-size: 40px;
+}
+.fas-fa-camera {
+	height: 70px;
+	width: 70px;
+	margin-right: 20px;
+	margin-bottom: 16px;
+}
+.fas-fa-edit {
+	height: 70px;
+	width: 70px;
+	margin-right: 20px;
+	margin-bottom: 16px;
+}
+.account-heading {
+	font-size: 1.0rem;
+}

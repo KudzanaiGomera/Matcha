@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ url_for('static', filename='pictures/userimage.jpg')}}">
+             <h4 class="account-heading">{{ username }}</h4>
+    </div>
+</div>
+<div class="content-section2">
+    <div class="media2">
+        <i class="fas fa-cog" style="font-size: 40px;margin-right: 20px;
+	margin-bottom: 16px; color: #fe3c72;"></i>
+        <i class="fas fa-camera" style="font-size: 40px;margin-right: 20px;
+	margin-bottom: 16px;color: #fe3c72;"></i>
+        <i class="fas fa-edit" style="font-size: 40px;margin-right: 20px;
+	margin-bottom: 16px; color: #fe3c72;"></i>
+    </div>
+</div>
+{% endblock content %}

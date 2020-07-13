@@ -37,11 +37,11 @@ def login():
             return redirect(url_for('home'))
         else:
             # Account doesnt exist or username/password incorrect
-            msg = 'Incorrect username/password!'
+            msg = 'Incorrect username/password!... Please check you login details'
     # Show the login form with message (if any)
     return render_template('index.html', msg=msg)
 
-    # http://localhost:5000/python/logout - this will be the logout page
+    # http://localhost:5000/matcha/logout - this will be the logout page
 
 
 @app.route('/matcha/logout')
@@ -53,7 +53,7 @@ def logout():
    # Redirect to login page
    return redirect(url_for('login'))
 
-# http://localhost:5000/pythinlogin/register - this will be the registration page, we need to use both GET and POST requests
+# http://localhost:5000/matcha/register - this will be the registration page, we need to use both GET and POST requests
 
 
 @app.route('/matcha/register', methods=['GET', 'POST'])
@@ -71,16 +71,18 @@ def register():
      # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'SELECT * FROM accounts WHERE username = %s', (username,))
+            'SELECT * FROM accounts WHERE email = %s', (email,))
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            msg = 'Account already exists!'
+            msg = 'Email Account already exists!...'
         elif not re.match(r'[^@]+@[^@]+\.[^@]+', email):
             msg = 'Invalid email address!'
+        elif not re.match(r'[A-Za-z0-9]+\.[^@]+', password):
+            msg = 'Invalid password!'
         elif not re.match(r'[A-Za-z0-9]+', username):
             msg = 'Username must contain only characters and numbers!'
-        elif not username or not password or not email:
+        elif not firstname or not lastname or not username or not password or not email:
             msg = 'Please fill out the form!'
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
@@ -92,11 +94,46 @@ def register():
 
     elif request.method == 'POST':
         # Form is empty... (no POST data)
-        msg = 'Please fill out the form!'
+        msg = 'Please fill out the form! ...'
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
 
-    # http://localhost:5000/pythinlogin/home - this will be the home page, only accessible for loggedin users
+
+# http://localhost:5000/matcha/extended_profile - this will be the registration page, we need to use both GET and POST requests
+
+
+@app.route('/matcha/extended_profile', methods=['GET', 'POST'])
+def extended_profile():
+    # Output message if something goes wrong...
+    msg = ''
+    # Check if "username", "password" and "email" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'firstname' in request.form and 'lastname' in request.form and 'username' in request.form and 'password' in request.form and 'email' in request.form:
+        # Create variables for easy access
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        username = request.form['username']
+        password = request.form['password']
+        email = request.form['email']
+     # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'SELECT * FROM profile WHERE email = %s', (email,))
+        account = cursor.fetchone()
+        # If account exists show error and validation checks
+
+
+  # http://localhost:5000/matcha/profile - this will be the home page, only accessible for loggedin users
+
+@app.route('/matcha/profile')
+def profile():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # User is loggedin show them the home page so they can change infomation on their profile
+        return render_template('profile.html', username=session['username'])
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+    # http://localhost:5000/matcha/home - this will be the home page, only accessible for loggedin users
 
 
 @app.route('/matcha/home')
