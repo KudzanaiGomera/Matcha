@@ -4,19 +4,25 @@
 
 {% block content %}
 <div class="content-section">
-    <div class="media">
-        <img class="rounded-circle account-img" src="{{ url_for('static', filename='pictures/userimage.jpg')}}">
-             <h4 class="account-heading">{{ username }}</h4>
+    <div class="media" style="display: block;">
+        <img class="rounded-circle account-img" src="{{ url_for('static', filename='pictures/userimage.jpg')}}"><br>
+        <span><h4 class="account-heading">{{ username }}</h4></span>  
     </div>
 </div>
 <div class="content-section2">
     <div class="media2">
-        <i class="fas fa-cog" style="font-size: 40px;margin-right: 20px;
-	margin-bottom: 16px; color: #fe3c72;"></i>
-        <i class="fas fa-camera" style="font-size: 40px;margin-right: 20px;
-	margin-bottom: 16px;color: #fe3c72;"></i>
-        <i class="fas fa-edit" style="font-size: 40px;margin-right: 20px;
-	margin-bottom: 16px; color: #fe3c72;"></i>
+        <div class="icon_middle"></div>
+            <i class="fas fa-edit" align="middle"><span>
+            <a href="{{ url_for('extended_profile') }}" style="display: block;">Edit</a>
+            </span>
+            </i>
+        </div>
+         <div class="icon_middle"></div>
+            <i class="fas fa-camera" align="middle"><span>
+            <a href="{{ url_for('upload') }}" style="display: block;">Upload</a>
+            </span>
+            </i>
+        </div>
     </div>
 </div>
 {% endblock content %}

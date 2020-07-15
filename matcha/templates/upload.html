@@ -3,6 +3,11 @@
 {% block title %}Upload{% endblock %}
 
 {% block content %}
-<h2>Upload Page</h2>
-<p>Welcome back, {{ username }}!</p>
+<div class="upload">
+<h1>Upload An Image</h1>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="image">
+      <input type="submit">
+    </form>
+</div>
 {% endblock %}
