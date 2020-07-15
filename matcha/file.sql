@@ -16,7 +16,7 @@
     
   CREATE TABLE IF NOT EXISTS profiles(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-        user_id(11) NOT NULL UNIQUE,
+        user_id INT(11) NOT NULL UNIQUE,
         gender VARCHAR(250) NOT NULL UNIQUE,
         sexual_orientation VARCHAR(250) NOT NULL UNIQUE,
         bio VARCHAR(250) NOT NULL UNIQUE,
