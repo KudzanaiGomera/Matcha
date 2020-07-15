@@ -78,6 +78,10 @@ body {
   	background-color: #9abae9;
   	transition: background-color 0.2s;
 }
+form textarea[bio]{
+	width: 100%;
+	height: 100px;
+}
 .navtop {
   	background-color: #2f3947;
   	height: 60px;
@@ -182,25 +186,34 @@ button {
 	margin-bottom: 16px;
 }
 
-.fas-fa-cog {
-	height: 70px;
-	width: 70px;
-	margin-right: 20px;
-	margin-bottom: 16px;
+.fa-cog {
 	font-size: 40px;
-}
-.fas-fa-camera {
-	height: 70px;
-	width: 70px;
 	margin-right: 20px;
 	margin-bottom: 16px;
+	color: #fe3c72;
 }
-.fas-fa-edit {
-	height: 70px;
-	width: 70px;
+.fa-camera {
+	font-size: 40px;
 	margin-right: 20px;
 	margin-bottom: 16px;
+	color: #fe3c72;
+}
+.fa-edit {
+	font-size: 40px;
+	margin-right: 20px;
+	margin-bottom: 16px;
+	color: #fe3c72;
 }
 .account-heading {
-	font-size: 1.0rem;
+	font-size: 1.5rem;
+}
+
+.media span {
+	text-align: center;
+	 font-weight: bold; 
+	 text-transform: uppercase;
+}
+
+.upload {
+	justify-content: center;
 }
