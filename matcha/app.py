@@ -13,10 +13,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MYSQL_HOST'] = 'sql2.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql2355397'
-app.config['MYSQL_PASSWORD'] = 'jZ8%sR6%'
-app.config['MYSQL_DB'] = 'sql2355397'
+app.config['MYSQL_HOST'] = '127.0.0.1'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'matcha'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 socketio = SocketIO(app)

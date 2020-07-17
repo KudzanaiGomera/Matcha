@@ -1,0 +1,574 @@
+/*==================================================================================*/
+/* Responsive CSS */
+/*==================================================================================*/
+@media screen and (max-width:1200px){.text-md-left{text-align:left;} .text-md-center{text-align:center;} .text-md-right{text-align:right;}}
+@media screen and (max-width:992px){.text-sm-left{text-align:left;} .text-sm-center{text-align:center;} .text-sm-right{text-align:right;}}
+@media screen and (max-width:767px){.text-xs-left{text-align:left;} .text-xs-center{text-align:center;} .text-xs-right{text-align:right;}}
+@media screen and (max-width:479px){.text-xx-left{text-align:left;} .text-xx-center{text-align:center;} .text-xx-right{text-align:right;} .col-xx-12{width:100%; float:none;}}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) { 
+    /* Safari and Chrome, if Chrome rule needed */
+    .timeline > li:before{bottom: -165px;}
+    .timeline > li:last-child:after{bottom: -50px; margin-left: -5px;}
+    .banner-form form .form-group select.form-control{padding: 0 10px;}
+
+    /* Safari 5+ ONLY */
+    ::i-block-chrome, .timeline > li:last-child:after{bottom: -30px;} 
+}
+
+@media screen and (max-width:1770px) {
+.timeline-section:before{height: 750px; bottom: -70px;}
+}
+
+@media screen and (max-width:1570px) {
+.timeline-section::before {bottom: -30px; height: 510px;}
+.error-page::before {height: 700px; right: -50px;}
+.error-page{overflow: hidden;}
+.our-app-2 .timeline-inner {background-position: left -410px bottom -100px !important;}
+}
+
+@media screen and (max-width:1360px) {
+.timeline-section::before {display: none;}
+.owl-carousel .owl-nav .owl-prev {left: -50px;}
+.owl-carousel .owl-nav .owl-next {right: -50px;}
+}
+
+@media screen and (max-width:1360px) {
+/*-------------------------------------------------
+  Mega Menu
+---------------------------------------------------*/
+.mega-menu .drop-down-multilevel a {  font-size: 0.8em;}
+.mega-menu .drop-down-multilevel {  max-width: 150px;}
+.mega-menu .menu-logo img {padding-top: 3px !important;}
+}
+
+@media (min-width: 1200px){
+.container { max-width: 1170px;}
+
+}
+
+@media screen and (max-width:1200px) {
+.page-section-ptb{padding:60px 0;} .page-section-pt{padding: 60px 0 0;} .page-section-pb{padding: 0 0 60px;}
+.social-icons li a{margin:0 5px 5px 0;}
+
+/*-------------------------------------------------
+  Counter
+--------------------------------------------------*/
+.counter span{font-size:40px; line-height:40px;}
+
+/*-------------------------------------------------
+  Team
+---------------------------------------------------*/
+.team-block{width:100%;}
+.team.boxed .team-description {  padding: 4% 2%;}
+.team.boxed .team-social-icon.social-icons li {margin-right: 0;}
+.team.left-pos .team-description {padding: 15px;}
+
+/*-------------------------------------------------
+  Timeline
+---------------------------------------------------*/
+.timeline > li > .timeline-panel {  width: 35%;}
+.timeline > li::before {left: 50%;}
+.timeline > li:last-child::after {bottom: -39px; margin-left: -1px;}
+
+/*-------------------------------------------------
+  Post
+---------------------------------------------------*/
+
+.post .post-meta a {  font-size: 12px;}
+.post-title h5 {  font-size: 13px;}
+
+/*-------------------------------------------------
+  owl-carousel
+---------------------------------------------------*/
+.owl-carousel .owl-nav .owl-prev {  left: -25px;}
+.owl-carousel .owl-nav .owl-next {  right: -25px;}
+
+/*-------------------------------------------------
+  Action Box
+---------------------------------------------------*/
+.action-box-img::after {bottom: -40px; right: -60px; height: 230px;}
+.action-box-img {overflow: hidden;}
+.button {padding: 18px 45px; }
+.error-page::before {height: 500px; right: -150px;}
+.big-title {font-size: 250px; line-height: 220px;}
+.form-1 .form-group label{font-size: 14px; padding-left: 0;}
+.profile-table img {left: 20px;}
+.our-app-2 .timeline-inner {background-position: left -530px bottom -140px !important; padding-bottom: 60px;}
+.story-details{ padding:20px 15px; }
+.story-details h5{ font-size: 15px; }
+.post.top-pos .post-title {max-width: 130px; top: 35px;}
+
+}
+
+
+@media screen and (max-width:992px) {
+h2{font-size: 40px; line-height: 50px;}
+h4{font-size: 18px;}
+h5{font-size: 14px;}
+.page-section-ptb{padding:50px 0;} 
+.page-section-pt{padding: 50px 0 0;}
+.page-section-pb{padding: 0 0 50px;}
+.gradient-overlay::before{background-position:40% 0;}
+
+/*-------------------------------------------------
+  Acction Box
+--------------------------------------------------*/
+.action-box .button{padding:18px 25px; font-size:13px;}
+.action-box-img::after{display: none;}
+
+/*-------------------------------------------------
+  Counter
+--------------------------------------------------*/
+.counter span{font-size:38px; line-height:38px;}
+.counter.left_pos::before{height:60px;}
+.counter-section .row > [class*='col-sm']:nth-last-of-type(-n+2) .counter.left_pos, .counter-section .row > [class*='col-sm']:nth-last-of-type(-n+2) .counter.left_icn, .counter-section .row > [class*='col-xs']:nth-last-of-type(-n+2) .counter.left_pos, .counter-section .row > [class*='col-xs']:nth-last-of-type(-n+2) .counter.left_icn{margin-bottom:0 !important;}
+
+/*-------------------------------------------------
+  Team
+---------------------------------------------------*/
+.team img{width: 100%;}
+.team.boxed .team-description {padding: 30% 8%;}
+.team.team-1, .team.boxed{margin-bottom: 30px;}
+.team.left-pos .team-description {height: 71%;  top: 50%; width: 80%; padding: 10px;}
+
+/*-------------------------------------------------
+  Post
+--------------------------------------------------*/
+.post-artical{margin-bottom: 30px;}
+.post-title h5 {font-size: 14px;}
+.post.right-pos .post-details {left: 0; transform:0; top: 75%; position: static; transform: inherit;}
+.post.right-pos .post-image {width: 100%;}
+.post.top-pos .post-date::before {right: -2px;}
+.post.top-pos .post-title {max-width: 130px;  right: 0; top: 11%;}
+.post.top-pos .post-date span, .post.top-pos .post-date{font-size: 16px;}
+.post .post-meta a {  margin-right: 0; font-size: 10px;}
+
+/*-------------------------------------------------
+  Timeline
+--------------------------------------------------*/
+.timeline-body::before{display: none;}
+.timeline > li {margin-bottom: 0;}
+.timeline > li:last-child::after {bottom: 0; margin-left: -8px;}
+.timeline-inner{background: none !important; height: inherit; padding-bottom: 40px;}
+.timeline-inner .mb-2 {margin: 0 0 50px !important;}
+.timeline-inner h2{color: #ffffff;}
+
+/*-------------------------------------------------
+  Owl-Carousel
+--------------------------------------------------*/
+.owl-carousel .owl-nav .owl-prev {left: -22px;}
+.owl-carousel .owl-nav .owl-next {right: -22px;}
+.owl-carousel .owl-dots {bottom: 0;}
+
+/*-------------------------------------------------
+  Mega Menu
+--------------------------------------------------*/
+.mega-menu .menu-logo img {max-width: 70% !important;}
+.error-page::before{display: none;}
+.form-1 .banner-form .form-group{font-size: 16px !important;}
+.form-1 .banner-form .form-group label{text-align: left; margin: 0;}
+.form-1 .banner-form .form-group > [class*="col-"]{padding-left: 0;}
+.form-1 .banner-form .form-group > [class*="col-"]{display: block;}
+.form-1 .banner-form .button { padding: 11px 25px; font-size: 12px; margin-top: 20px;}
+.form-1 .banner-form .button i:before{font-size: 15px;}
+.form-1 .banner-form .button.animated.right-icn:hover span {transform: translate(-10px, 0px);}
+.form-1 .button.animated.right-icn i {transform: translate(25px, -50%);}
+.profile-cntn {top: 70px;}
+.profile-table img {left: 0; height: 40px; top: -3px;}
+#main-slider .slider-content h1 {width: 70%;}
+#main-slider .slider-content{ transform: translateY(0%); -webkit-transform: translateY(0%); -moz-transform: translateY(0%); -ms-transform: translateY(0%); -o-transform: translateY(0%); }
+#main-slider .carousel-control.left, #main-slider .carousel-control.right{display: inline-block;}
+.stepwizard-step::before { right: -80px; }
+.banner-3 .banner-form {margin-top: 30px;}
+.banner-form select.form-control{padding: 8px 10px;}
+.our-app-2 .timeline-inner{background-image: none; padding-bottom: 50px;}
+
+}
+
+@media screen and (max-width:992px) and (min-width:768px) {
+/*-------------------------------------------------
+  Blog Post
+---------------------------------------------------*/
+.container { max-width: 750px;}
+.post.left_pos .post-image, 
+.post.left_pos .post-details{width:100%;}
+.post.left_pos .post-image{height:280px; overflow:hidden;}
+
+/*-------------------------------------------------
+  Team
+---------------------------------------------------*/
+.team.left_pos{padding-left:0;}
+.team.left_pos .team-images{height:330px; left:0; overflow:hidden; padding-top:15px;  position:relative; text-align:center; top:0; width:auto;}
+.team.left_pos .team-social-icon{position:relative; width:100%;}	
+.counter label { font-size: 10px; }
+.story-details h5{ font-size: 14px; }
+.accordion.boxed{ margin-bottom: 50px; }
+.step-social li{ padding:0 5px; }
+
+}
+
+@media screen and (max-width:767px) {
+
+h1 {font-size: 40px; line-height: 50px;}
+h2 {font-size: 28px; line-height: 36px;}
+h3 {font-size: 25px; line-height: 32px;}
+h4 {font-size: 16px; line-height: 28px;}
+h5 {font-size: 15px; line-height: 22px;}
+h6 {font-size: 14px; line-height: 20px;}
+
+h1.title2 {font-size: 44px; line-height: 50px;}
+h2.title2 {font-size: 36px; line-height: 42px;}
+h3.title2 {font-size: 32px; line-height: 40px;}
+h4.title2 {font-size: 30px; line-height: 36px;}
+h5.title2 {font-size: 26px; line-height: 32px;}
+h6.title2 {font-size: 22px; line-height: 30px;}
+
+.lead{font-size: 14px; line-height: 24px;}
+.inner-intro {  height: 250px !important;}
+.intro-title h1 {  font-size: 29px !important;}
+.section-title .sub-title {  font-size: 65px !important;}
+
+/* Page section margin padding */ 
+
+.page-section-ptb{padding:40px 0;} 
+.page-section-pt{padding: 40px 0 0;} 
+.page-section-pb{padding: 0 0 40px;}
+
+.sm-pb-6 { padding-bottom: 60px !important; }
+.sm-pb-0 { padding-bottom: 0px !important; }
+
+.sm-mt-0{margin-top: 0 !important;}
+.sm-mb-0{margin-bottom: 0 !important;}
+.sm-mb-2{margin-bottom: 20px !important;}
+.sm-mt-2{margin-top: 20px !important;}
+.sm-mb-3{margin-bottom: 30px !important;}
+.sm-mt-3{margin-top: 30px !important;}
+
+.mb-5{margin-bottom: 50px !important;}
+
+/*-------------------------------------------------
+  Acction Box
+--------------------------------------------------*/
+.action-box h4 {line-height:32px; margin-top:5px;}
+
+/*-------------------------------------------------
+  Timeline
+--------------------------------------------------*/
+.timeline > li::before, .timeline > li:last-child::after {display: none;}
+.timeline > li {margin-bottom: 30px;}
+.timeline > li > .timeline-panel { width: 65%;}
+.timeline > li > .timeline-badge {height: 100px; left: inherit; right: -20px; top: 20%; width: 100px;}
+.timeline .timeline-inverted .timeline-badge {left: 15%;  right: inherit;  top: 40px;}
+.timeline .timeline-inverted .timeline-panel {padding: 0; width: 65%;}
+
+/*-------------------------------------------------
+  Counter
+--------------------------------------------------*/
+.counter span{font-size:34px; line-height:34px;}
+.counter i::before{font-size:50px; line-height:50px;}
+.counter.fancy i::before{font-size:80px;}
+.counter.left_pos i::before, .counter.left_icn i::before{font-size:50px;}
+.counter.border i::before{font-size:32px; line-height:32px;}
+.counter-section .row > [class*='col-sm'] .counter, .counter-section .row > [class*='col-sm']:nth-last-of-type(-n+2) .counter.left_pos, .counter-section .row > [class*='col-sm']:nth-last-of-type(-n+2) .counter.left_icn, .counter-section .row > [class*='col-xs']:nth-last-of-type(-n+2) .counter.left_pos, .counter-section .row > [class*='col-xs']:nth-last-of-type(-n+2) .counter.left_icn{margin:10px 0 !important; display:inline-block; width:100%;}
+.counter-section .row > div:first-child .counter{margin-top:0 !important;}
+.counter, .about-cntn {margin-bottom: 30px;}
+.counter.fancy{margin: 70px 0;}
+
+/*-------------------------------------------------
+  Tabs
+--------------------------------------------------*/
+
+.tab .nav-tabs{width:100%;}
+.tab .tab-content{width:100%; padding:25px;}
+.tab .nav-tabs li a{padding:10px;}
+
+/*-------------------------------------------------
+  Testimonial
+---------------------------------------------------*/
+.testimonial.clean, .testimonial.left_pos  {padding: 0;}
+.testimonial.left_pos .testimonial-avatar {margin: 0 0 30px; position: inherit; top: inherit;}
+.testimonial.left_pos .testimonial-info::after, .testimonial.left_pos .testimonial-info::before{left: 40px; top: inherit; bottom: 100%;-webkit-transform: rotate(-270deg); -ms-transform: rotate(-270deg); transform: rotate(-270deg)}
+.dark-bg .owl-carousel .owl-nav .owl-prev {left: 20%;}
+.dark-bg .owl-carousel .owl-nav .owl-next {right: 20%;}
+.dark-bg .owl-carousel .owl-nav {bottom: 95px; top: inherit;}
+
+/*-------------------------------------------------
+  Team
+---------------------------------------------------*/
+.team-block .member-info.member1{top:-20px; left:6%;}
+.team-block .member-info.member2{top:-36px; left:22%;}
+.team-block .member-info.member3{top:-25px; left:39%;}
+.team-block .member-info.member4{top:-15px; left:52%;}
+.team-block .member-info.member5{top:-28px; left:65%;}
+.team-block .member-info.member6{top:-5px; left:83%;}
+.team-block .member-info.member1 .info{left:-5px;}
+.team-block .member-info.member1 .info::after{left:10%;}
+.team-block .member-info.member6 .info{left:-200px;}
+.team-block .member-info.member6 .info::after{left:88%;}
+.team-block .member-info .info{width:0; transition:none;}
+.team-block .member-info:hover .info{width:250px;}
+.team.boxed .team-description {padding: 13% 0;}
+.team.boxed:hover .team-description h4 { margin-top:5px;}
+.team.left-pos .team-description .title {font-size: 14px; margin-bottom: 0;}
+.team.left-pos .team-description { position: inherit; height: 98%;  padding: 5px;  width: 100%;}
+.team.left-pos .team-description p{margin: 0;  line-height: 18px;}
+.team.left-pos .team-description span {margin-bottom: 0;}
+.team .team-social-icon {  margin-top:0px;}
+
+/*-------------------------------------------------
+  Post
+---------------------------------------------------*/
+.post.right-pos{margin-bottom: 50px;}
+
+/*-------------------------------------------------
+  Slider
+---------------------------------------------------*/
+#main-slider .slider-content h1 {width: 80%;}
+#main-slider .item .slider-content{top: 60%;}
+
+
+/*-------------------------------------------------
+  Mega Menu
+---------------------------------------------------*/
+.mega-menu .menu-logo img {max-width:100% !important;}
+
+
+/*-------------------------------------------------
+  Owl-Carousel
+---------------------------------------------------*/
+.owl-carousel .owl-nav {bottom: 30px; top: inherit;}
+.owl-carousel .owl-nav .owl-prev {  left: 37%;}
+.owl-carousel .owl-nav .owl-next {  right: 37%;}
+
+/*-------------------------------------------------
+  Profile
+---------------------------------------------------*/
+.profile-image img{width: 100%;}
+.profile-table {overflow-x: scroll;}
+.profile-table > li {width: 220%;}
+
+/*-------------------------------------------------
+  Stories
+---------------------------------------------------*/
+.story-slider .mb-5{margin-bottom: 0;}
+
+/*-------------------------------------------------
+  Banner
+---------------------------------------------------*/
+.textrotate {font-size: 50px; line-height: 70px;}
+.bg-1 .align-items-center{top: 65%;}
+h1 br, p br{display: none;}
+.banner-form {margin-top: 30px;}
+.banner-form .form-inner {padding: 10px;}
+.button {font-size: 14px; padding: 13px 40px;}
+.skill.skill-medium{margin-top: 50px;}
+.address-block {margin-bottom: 30px;}
+.accordion{margin-bottom: 30px;}
+.light-form{padding: 20px !important;}
+.o-hidden{overflow: hidden;}
+.story-item h5{font-size: 14px;}
+.big-title {font-size: 200px; line-height: 160px;}
+.form-1{margin-top: 0; top: 0;  margin-bottom:0; }
+.form-1 .banner-form .form-group{margin-bottom: 5px;}
+.form-1 .banner-form .button {margin-top: 20px}
+.inner-intro.details-page .container{display: block;}
+.details-page .profile-cntn li h2{margin-bottom: 0 !important;}
+.profile-cntn {top: 120px;}
+.profile-cntn img{height: 150px; width: 150px;}
+.our-app-2 .timeline-inner{ padding-bottom: 40px; }
+.stepwizard-step::before { right: -60px; }
+.divider-3{ padding-bottom: 10px; }
+.post.top-pos .post-title {max-width: 100%; right: 10px; top: 40px;}
+
+.step-social li{ padding:0 5px; }
+
+}
+
+@media screen and (max-width:630px) {
+.tab.tab-icon .nav-tabs li a span, .tab.tab-bg .nav-tabs li a span {font-size: 12px; line-height: 20px;}
+.form-1 .banner-form .form-group{padding: 10px 15px; margin-bottom: 0;}
+.banner-form .form-inner .form-group {margin-bottom: 0px;}
+
+}
+
+@media screen and (max-width:479px) {
+h1 {font-size: 32px; line-height: 40px;}
+h3{font-size:18px;}
+h4{font-size:16px;}
+
+/*-------------------------------------------------
+  Blog Post
+---------------------------------------------------*/
+.post .post-date {width: 47px;}
+.post .post-date span { width: 47px;}
+.post.left_pos .post-image, .post.left_pos .post-details{width:100%;}
+.post.left_pos .post-image{height:280px; overflow:hidden;}
+.post.right-pos{padding-bottom:10px !important;}
+.post.right-pos h5{font-size: 12px;}
+
+/*-------------------------------------------------
+  Team
+---------------------------------------------------*/
+.team.left_pos{padding-left:0;}
+.team.left_pos .team-images{height:330px; left:0; overflow:hidden; padding-top:15px;  position:relative; text-align:center; top:0; width:auto;}
+.team.left_pos .team-social-icon{position:relative; width:100%;}
+
+
+/* Fancy */
+.team-block .member-info.member1{top:-25px; left:3%;}
+.team-block .member-info.member2{top:-32px; left:20%;}
+.team-block .member-info.member3{top:-25px; left:37%;}
+.team-block .member-info.member4{top:-20px; left:50%;}
+.team-block .member-info.member5{top:-28px; left:63%;}
+.team-block .member-info.member6{top:-15px; left:81%;}
+.team-block .member-info .info{width:0; transition:none;}
+.team-block .member-info:hover .info{width:250px;}
+.team-block .member-info.member2 .info{left:-45px;}
+.team-block .member-info.member2 .info::after{left:26%;}
+.team-block .member-info.member5 .info{left:-155px;}
+.team-block .member-info.member5 .info::after{left:70%;}
+.team.boxed .team-description {padding: 28% 10%;}
+.team.boxed .team-description p {margin-bottom: 20px;}
+
+/*-------------------------------------------------
+  Timeline
+---------------------------------------------------*/
+.timeline > li > .timeline-badge, .timeline .timeline-inverted .timeline-badge {position: inherit; right: inherit; top: inherit; transform: inherit; left: inherit; margin: 0 auto;}
+.timeline > li > .timeline-panel, .timeline .timeline-inverted .timeline-panel {width: 100%; text-align: left; margin-top: 30px;}
+.timeline-heading{text-align: left;}
+
+/*-------------------------------------------------
+  Login
+---------------------------------------------------*/
+.login-1-social li {float: none; width: 100%;}
+.login-1-social li a.fb{border-radius: 30px !important; margin-bottom: 30px;}
+.login-1-social li a.gplus{border-radius: 30px !important;}
+
+/*-------------------------------------------------
+  Banner
+---------------------------------------------------*/
+.inner-intro {  height: 280px !important;}
+.intro-title h1 {font-size: 20px !important;}
+.intro-title .section-title .sub-title {font-size: 40px !important;}
+.banner-form form .form-group > label {font-size: 13px; line-height: 20px;}
+.dropdown {line-height: 20px;}
+
+/*-------------------------------------------------
+  Owl-Carousel
+---------------------------------------------------*/
+.owl-carousel .owl-item img {width: 100%;}
+.owl-carousel .owl-controls .owl-dot {margin-right: 25px;}
+.owl-carousel.owl-theme .owl-dots .owl-dot span::before {font-size: 16px;}
+.owl-carousel.owl-theme .owl-dots .owl-dot.active span::before {font-size: 18px;}
+.owl-carousel .owl-nav .owl-prev {  left: 30%;}
+.owl-carousel .owl-nav .owl-next {  right: 30%;}
+
+/*-------------------------------------------------
+  Tab
+---------------------------------------------------*/
+.tab .nav-tabs li {  width: 100% !important;}
+.tab .nav-tabs li a i::before {  font-size: 26px;}
+.tab .nav-tabs li a span {font-size: 14px; line-height: 20px;}
+.tab.tab-bg .nav-tabs li a{margin-right: 0;}
+.profile-cntn {top: 70px;}
+.profile-cntn .profile-text {padding-left: 20px;}
+.profile-cntn img {height: 100px; width: 100px;}
+.profile-slider .profile-image img{width: 100%;}
+.profile-table li ul > li {font-size: 13px; line-height: 20px;}
+.skill.skill-medium span{left: 18%;}
+.counter.fancy {margin: 70px 0 70px;}
+.big-title {font-size: 150px; line-height: 120px;}
+.form-1 .banner-form .form-group label{margin-bottom: 5px;}
+.banner-3 .banner-form {margin-top: 10px;}
+
+}
+
+
+@media screen and (max-width:375px) {
+.post.top-pos .post-title {max-width: 170px;}
+.banner-form .bootstrap-select > .dropdown-toggle{ padding: 6px 10px;  }
+.banner-form .form-inner .form-group label{ font-size: 12px; line-height: 12px; margin-bottom: 5px;  }
+.countdown > li span{ font-size: 18px; }
+
+}
+
+
+
+
+
+@media screen and (max-width:1200px) {
+    .mega-menu .menu-logo {padding: 17px 0;}
+    }
+    
+    @media screen and (max-width:992px) {
+    .row-eq-height{display:block;}
+    .section-title p{padding:0 50px;}
+    .inner-intro{height:250px;}
+    .intro-title .section-title{margin-bottom:0;}
+    .intro-title .section-title .title{font-size:34px;}
+    .section-title .sub-title {font-size: 70px;}
+    
+    /*-------------------------------------------------
+      Header 
+    --------------------------------------------------*/
+    #header.defualt { position: relative; background: #323232; }
+    #header .topbar{display:none;}
+    .mega-menu{min-height:80px;}
+    .mega-menu .menu-logo{padding:0;}
+    .mega-menu .menu-links > li{border-bottom-color:rgba(255,255,255,0.25); padding:0;}
+    .mega-menu .menu-links > li > a{line-height:30px; color:#ffffff !important; padding:10px 20px;}
+    .mega-menu .menu-links > li:last-child{border-bottom:none;}
+    .mega-menu .menu-links > li.active > a{color:#ffbc05 !important;}
+    .mega-menu .menu-links > li > a:hover:before{opacity: 0;}
+    
+    /* Defualt Header */
+    .mega-menu .row > [class*='col-']:before, 
+    .mega-menu .row > [class*='col-']:after{content:""; display:table; clear:both;}
+    
+    .mega-menu .menu-links{left:0; position:absolute; top:100%; width:100%;}
+    
+    
+    @media screen and (max-width:767px) {
+    .section-title p{padding:0;}
+    .inner-intro{height:200px;}
+    .intro-title{padding-bottom:0;}
+    .intro-title .section-title .title{font-size:26px; line-height:30px;}
+    .intro-title h1{font-size: 30px !important; line-height: 40px;}
+    .intro-title .section-title .sub-title {font-size: 70px !important;}
+    .inner-intro .container {width: 100%;}
+    
+    /*-------------------------------------------------
+      loading 
+    --------------------------------------------------*/
+    .clear-loading{margin-left:-50px;}
+    .loading-effect{width:100px; height:100px;}
+    .loading-effect span{display:none;}
+    .loading-effect img {width: 100px;}
+    
+    /*-------------------------------------------------
+      Header 
+    --------------------------------------------------*/
+    .mega-menu{min-height:70px;}
+    .mega-menu .menu-logo img{height:30px;}
+    
+    /*-------------------------------------------------
+     footer  
+    --------------------------------------------------*/
+    .footer-widget p{text-align:center;}
+    .footer-widget ul{text-align:center;}
+    .social-icons{display:inline-block;}
+    .footer-widget{padding:15px 0;/* margin-top:10px !important;*/}
+    
+    }
+    
+    @media screen and (max-width:479px) {
+    h2.title2{font-size:24px; line-height:30px;}
+    .page-breadcrumb li{margin: 0;}
+    ul.page-breadcrumb {padding: 0 8px;}
+    ul.page-breadcrumb li a, ul.page-breadcrumb li span {font-size: 13px;}
+    ul.page-breadcrumb li i {font-size: 13px; padding: 0 5px;}
+    
+    .banner-form h4 {font-size: 13px; line-height: 18px; padding: 10px 20px;}
+    }
+}
