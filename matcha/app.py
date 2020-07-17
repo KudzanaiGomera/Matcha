@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from flask_mysqldb import MySQL, MySQLdb
 from flask_socketio import SocketIO, emit
+from werkzeug.security import generate_password_hash, check_password_hash
 import bcrypt
 import re
 import os
@@ -13,10 +14,10 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MYSQL_HOST'] = 'sql2.freemysqlhosting.net'
-app.config['MYSQL_USER'] = 'sql2355397'
-app.config['MYSQL_PASSWORD'] = 'jZ8%sR6%'
-app.config['MYSQL_DB'] = 'sql2355397'
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = 'matcha'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 socketio = SocketIO(app)
@@ -72,7 +73,7 @@ def login():
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
+            'SELECT * FROM accounts WHERE username = %s AND password = %s', (username, check_password_hash(password, password),))
         # Fetch one record and return result
         account = cursor.fetchone()
         # If account exists in accounts table in out database
@@ -115,6 +116,7 @@ def register():
         lastname = request.form['lastname']
         username = request.form['username']
         password = request.form['password']
+        hashdpw = generate_password_hash(password, method='sha256', salt_length=6)
         email = request.form['email']
         
         #generate vkey
@@ -143,7 +145,7 @@ def register():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute(
-                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)', (username, firstname, lastname, password, email,vkey,user_email_status,picture,))
+                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)', (username, firstname, lastname, hashdpw, email,vkey,user_email_status,picture,))
             mysql.connection.commit()
             msg = 'You have successfully registered!'
             return redirect(url_for('login'))
