@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from flask_mysqldb import MySQL, MySQLdb
-from werkzeug.utils import secure_filename
+from flask_socketio import SocketIO, emit
 import bcrypt
 import re
 import os
@@ -13,13 +13,13 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MYSQL_HOST'] = '127.0.0.1'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'matcha'
+app.config['MYSQL_HOST'] = 'sql2.freemysqlhosting.net'
+app.config['MYSQL_USER'] = 'sql2355397'
+app.config['MYSQL_PASSWORD'] = 'jZ8%sR6%'
+app.config['MYSQL_DB'] = 'sql2355397'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
-
+socketio = SocketIO(app)
 
 @app.route('/matcha/', methods=['GET', 'POST'])
 def login():
@@ -141,7 +141,7 @@ def register():
         elif not firstname or not lastname or not username or not password or not email:
             msg = 'Please fill out the form!'
         else:
-            # Account doesnt exists and the form data is valid, now insert new account into accounts table TODO
+            # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute(
                 'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)', (username, firstname, lastname, password, email,vkey,user_email_status,picture,))
             mysql.connection.commit()
@@ -173,9 +173,9 @@ def extended_profile():
             #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'INSERT INTO profiles VALUES (NULL,%s, %s, %s, %s, %s)', (user_id, gender, sexual_orientation, bio, listofinterest,))
+             'INSERT INTO accounts (NULL,%s, %s, %s, %s, %s,%s,%s) VALUES ( , firstname, lastname, username, password, email, vkey, user_email_status)')
         mysql.connection.commit()
-        msg = 'You have successfully completed your profile'
+        msg = 'You have successfully completed your profile' 
         return redirect(url_for('profile'))
 
     elif request.method == 'POST':
@@ -362,6 +362,26 @@ def home():
         return render_template('home.html', username=session['username'], profile=profile)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+@app.route('/matcha/chatpage')
+def chat():
+    # Check is user is loggedin
+    if 'loggedin' in session:
+        #User is logged in they may see chatpage
+        return render_template('chatpage2.html', username=session['username'])
+
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
+
+
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
+
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
     app.secret_key = "kudzanai123456789gomera"
