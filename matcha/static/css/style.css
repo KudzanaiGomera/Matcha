@@ -128,6 +128,13 @@ ul.page-breadcrumb li a{color: #ffffff; font-size: 14px; text-transform: capital
 .topbar { border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: 10px 0px; }
 .topbar li, .topbar li a{color: #ffffff;}
 .topbar-right li i:hover{color:#ffffff !important;}
+.top-menu{float: right; margin-left: 10px; z-index: 9999 !important; position: relative; margin-top: 4px;}
+.top-menu li a{ color: #ffffff;}
+.top-menu li{padding: 0;}
+.top-menu li a{border-right: 2px solid #fff; padding: 0 10px;}
+.top-menu li:last-child a{border-right: none;}
+.topbar-right > ul {display: inline-block;}
+.topbar ul li a:hover, .topbar ul li a:hover i{color: #333 !important;}
 
 /*--------------------------------------------------------------
 -------------------------------END!!-----------------------------
