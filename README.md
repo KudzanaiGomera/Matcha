@@ -15,6 +15,7 @@
 > cd matcha
 
 > pip install flask
+> pip install flask-socketio
 
 > python app.py  
 or 
@@ -34,6 +35,7 @@ go to your browser and paste
 >$ cd matcha
 
 >$ pip install flask
+>$ pip install flask-socketio
 
 >$ python app.py  
 or 
