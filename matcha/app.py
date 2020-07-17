@@ -1,16 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from flask_mysqldb import MySQL, MySQLdb
-<<<<<<< HEAD
-from flask_socketio import SocketIO, emit
-<<<<<<< HEAD
+from flask_mail import Mail
+from email.mime.text import MIMEText
 from werkzeug.security import generate_password_hash, check_password_hash
-=======
 from flask_socketio import SocketIO, emit, send
-
->>>>>>> SwaySway
-=======
->>>>>>> 265fb5054ec42ad7885e6c383d1d1f65aa437081
 import bcrypt
+import smtplib
 import re
 import os
 import secrets
@@ -22,7 +17,7 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'matcha'
@@ -36,7 +31,7 @@ def login():
     msg = ''
     # Creating all the db and tables needed can add your if necessary
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('''CREATE DATABASE IF NOT EXISTS sql2355397''')
+    cursor.execute('''CREATE DATABASE IF NOT EXISTS matcha''')
     print("Databse created")
 
     cursor.execute('''CREATE TABLE  IF NOT EXISTS accounts(
@@ -47,7 +42,6 @@ def login():
         password VARCHAR(250) NOT NULL,
         email VARCHAR(250) NOT NULL UNIQUE,
         vkey VARCHAR(250) NOT NULL,
-        user_email_status enum('not verified','verified') NOT NULL DEFAULT 'not verified',
         picture VARCHAR(500) NOT NULL DEFAULT 'profile.jpg'
     )''')
     print("Table created")
@@ -132,7 +126,6 @@ def register():
         vk = hashlib.md5(username.encode())
         vkey = vk.hexdigest()
 
-        user_email_status = ''
         picture = 'profile.jpg'
      # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -153,16 +146,88 @@ def register():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute(
-                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)', (username, firstname, lastname, hashed, email,vkey,user_email_status,picture,))
+                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s)', (username, firstname, lastname, password, email,vkey,picture,))
             mysql.connection.commit()
+
+            #sending email
+            message = MIMEText('<p>Click this link!<a href = "http://localhost:5000/matcha/home"> to verify account and login to your Account</a></p>', 'html')
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            # make sure to change this part last parameter which is your password and as well the first which is the email
+            server.login('', '') #'email''pwd'
+            server.sendmail('kudzie.gom@gamil.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
             msg = 'You have successfully registered!'
-            return redirect(url_for('login'))
+            return redirect(url_for('check_email'))
 
     elif request.method == 'POST':
         # Form is empty... (no POST data)
         msg = 'Please fill out the form! ...'
     # Show registration form with message (if any)
     return render_template('register.html', msg=msg)
+
+
+# http://localhost:5000/matcha/forget_pwd - this will be the forgotten pwd page, we need to use both GET and POST requests
+
+
+@app.route('/matcha/forget_pwd', methods=['GET', 'POST'])
+def forget_pwd():
+    # Output message if something goes wrong...
+    msg = ''
+    # Check if "username", "password" and "email" POST requests exist (user submitted form)
+    if request.method == 'POST' and 'email' in request.form:
+        # Create variables for easy access
+        email = request.form['email']
+
+     # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'SELECT * FROM accounts WHERE email = %s', (email,))
+        account = cursor.fetchone()
+        # If account does not exists show error page
+        if not account:
+            msg = 'This Email Account does not exists!...'
+            return redirect(url_for('Does_not_exists'))
+        else:
+            #sending email
+            message = MIMEText(
+                '<p>Click this link!<a href = "http://localhost:5000/matcha/reset"> to reset your password</a></p>', 'html')
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            # make sure to change this part last parameter which is your password and as well the first which is the email
+            server.login('kudzie.gom@gmail.com', '')#'pwd'
+            # also change the first parameter whcih is the default sending email
+            server.sendmail('kudzie.gom@gamil.com', email, message.as_string())
+            msg = 'You have received a link to reset password!'
+            return redirect(url_for('forget_pwd_check.html'), msg=msg)
+
+    elif request.method == 'POST':
+        # Form is empty... (no POST data)
+        msg = 'Please fill out the form! ...'
+    # Show registration form with message (if any)
+    return render_template('forget_pwd.html', msg=msg)
+
+
+@app.route('/matcha/reset', methods=['GET', 'POST'])
+def reset():
+    # Output message if something goes wrong...
+    msg = ''
+    # User is loggedin show them the home page so they can change infomation on their profile
+    if request.method == 'POST' 'password' in request.form:
+        #Create variables for easy access
+        password = request.form['password']
+        user_id = session['id']
+        #check if the above already exits in the databasse
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'UPDATE profiles SET password=%s WHERE user_id=%s', (password, user_id,))
+        mysql.connection.commit()
+        msg = 'You have successfully reset your password'
+        return redirect(url_for('login'), msg=msg)
+
+    elif request.method == 'POST':
+        msg = 'Please fill out the form! ...'
+    return render_template('reset.html', msg=msg)
+
 
 
 # http://localhost:5000/matcha/extended_profile - this will be the page the user is directed to complete his or her profile, we need to use both GET and POST requests
@@ -363,6 +428,28 @@ def home():
         return render_template('home.html', username=session['username'], profile=profile)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+@app.route('/matcha/check_email')
+def check_email():
+    return render_template('check_email.html')
+
+
+@app.route('/matcha/forget_pwd_check')
+def forget_pwd_check():
+    return render_template('forget_pwd_check.html')
+
+
+@app.route('/matcha/Does_not_exists')
+def Does_not_exists():
+    return render_template('Does_not_exists.html')
+
+
+@app.route('/matcha/verify')
+def verify():
+    # Output message if something goes wrong...
+    # TODO
+    return render_template('verify.html')
+
 
 @app.route('/matcha/chatpage')
 def chat():
