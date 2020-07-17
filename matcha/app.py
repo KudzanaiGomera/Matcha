@@ -27,7 +27,7 @@ def login():
     msg = ''
     # Creating all the db and tables needed can add your if necessary
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('''CREATE DATABASE IF NOT EXISTS matcha''')
+    cursor.execute('''CREATE DATABASE IF NOT EXISTS sql2355397''')
     print("Databse created")
 
     cursor.execute('''CREATE TABLE  IF NOT EXISTS accounts(
@@ -182,9 +182,7 @@ def extended_profile():
             msg = 'Please fill out the form! ...'
     return render_template('extended_profile.html', msg=msg)
 
-
 # http://localhost:5000/matcha/edit_extended_profile - this will be the page the user is directed to complete his or her profile, we need to use both GET and POST requests
-
 
 @app.route('/matcha/edit_extended_profile', methods=['GET', 'POST'])
 def edit_extended_profile():
@@ -211,7 +209,6 @@ def edit_extended_profile():
     return render_template('edit_extended_profile.html', msg=msg)
 
 
-
 # http://localhost:5000/matcha/upload - this will be the registration page, we need to use both GET and POST requests
 
 def save_picture(fname):
@@ -222,7 +219,6 @@ def save_picture(fname):
     fname.save(picture_path)
     return picture_fn
 
-
 def save_profile_picture(fname):
     random_hex = secrets.token_hex(8)
     f_name, f_ext = os.path.splitext(fname.filename)
@@ -230,7 +226,6 @@ def save_profile_picture(fname):
     picture_path = os.path.join(app.root_path, 'static/profile_pic', picture_fn)
     fname.save(picture_path)
     return picture_fn
-
 
 @app.route('/matcha/upload', methods=['GET', 'POST'])
 def upload():
@@ -253,7 +248,6 @@ def upload():
         msg = 'No file choosen! ...'
     return render_template('upload.html', msg=msg)
 
-
 @app.route('/matcha/profile_pic', methods=['GET', 'POST'])
 def profile_pic():
     # Output message if something goes wrong...
@@ -275,9 +269,7 @@ def profile_pic():
         msg = 'No file choosen! ...'
     return render_template('upload.html', msg=msg)
 
-
 # http://localhost:5000/matcha/edit_profile - this will be the edit_profile page to change your firstname, lastname and email, we need to use both GET and POST requests
-
 
 @app.route('/matcha/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
@@ -344,7 +336,6 @@ def profile():
 
     # http://localhost:5000/matcha/home - this will be the home page, only accessible for loggedin users
 
-
 @app.route('/matcha/home')
 def home():
     # Check if user is loggedin
@@ -373,12 +364,11 @@ def chat():
 def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
 
-
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
-
+    
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
