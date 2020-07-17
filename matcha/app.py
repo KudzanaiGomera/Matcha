@@ -1,7 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from flask_mysqldb import MySQL, MySQLdb
+<<<<<<< HEAD
 from flask_socketio import SocketIO, emit
 from werkzeug.security import generate_password_hash, check_password_hash
+=======
+from flask_socketio import SocketIO, emit, send
+
+>>>>>>> SwaySway
 import bcrypt
 import re
 import os
@@ -175,7 +180,7 @@ def extended_profile():
             #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-             'INSERT INTO accounts (NULL,%s, %s, %s, %s, %s,%s,%s) VALUES ( , firstname, lastname, username, password, email, vkey, user_email_status)')
+             'INSERT INTO accounts (NULL, %s, %s, %s, %s, %s, %s, %s) VALUES ( , firstname, lastname, username, password, email, vkey, user_email_status)')
         mysql.connection.commit()
         msg = 'You have successfully completed your profile' 
         return redirect(url_for('profile'))
@@ -374,6 +379,32 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
+users = {}
+
+@app.route('/matcha/messages')
+def messages():
+    if 'loggedin' in session:
+    #socketio.emit('server orginated', 'Something happened on the server!')
+        return render_template('messages.html', username=session['username']) 
+
+@socketio.on('message from user', namespace='/messages')
+def receive_message_from_user(message):
+    print('USER MESSAGE: {}'.format(message))
+    emit('from flask', message.upper(), broadcast=True)
+
+@socketio.on('username', namespace='/private')
+def receive_username(username):
+    users[username] = request.sid
+    #users.append({username : request.sid})
+    #print(users)
+    print('Username added!')
+
+@socketio.on('private_message', namespace='/private')
+def private_message(payload):
+    recipient_session_id = users[payload['username']]
+    message = payload['message']
+
+    emit('new_private_message', message, room=recipient_session_id)
 
 if __name__ == '__main__':
     app.secret_key = "kudzanai123456789gomera"
