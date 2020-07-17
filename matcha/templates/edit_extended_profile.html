@@ -4,8 +4,8 @@
 
 {% block content %}
 <div class="register">
-            <h1>Extended Profile</h1>
-			<form action="{{ url_for('extended_profile') }}" method="post" autocomplete="off">
+            <h1>Edit Extended Profile</h1>
+			<form action="{{ url_for('edit_extended_profile') }}" method="post" autocomplete="off">
                 <label for="gender">
 					<i class="fas fa-genderless"></i>
 				</label>
@@ -23,7 +23,7 @@
 				</label>
 				<input type="text" name="listofinterest" placeholder="listofinterest" id="listofinterest" required>
 				<div class="msg">{{ msg }}</div>
-				<input type="submit" value="Edit">
+				<input type="submit" value="Save">
 			</form>
 		</div>
 {% endblock %}

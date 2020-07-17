@@ -9,7 +9,8 @@
         password VARCHAR(250) NOT NULL,
         email VARCHAR(250) NOT NULL UNIQUE,
         vkey VARCHAR(250) NOT NULL,
-        user_email_status enum('not verified','verified') NOT NULL
+        user_email_status enum('not verified','verified') NOT NULL,
+        picture VARCHAR(500) NOT NULL DEFAULT profile.jpg
     );
 
     
