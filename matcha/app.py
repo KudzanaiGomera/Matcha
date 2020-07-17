@@ -74,7 +74,6 @@ def login():
         cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         # Fetch one record and return result
         account = cursor.fetchone()
-        # cursor.close()
         # If account exists in accounts table in out database
         if account:
             if bcrypt.checkpw(password.encode('utf-8'), account["password"].encode('utf-8')):
