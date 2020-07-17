@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}Extended Profile{% endblock %}
+
+{% block content %}
+<div class="register">
+            <h1>Edit Extended Profile</h1>
+			<form action="{{ url_for('edit_extended_profile') }}" method="post" autocomplete="off">
+                <label for="gender">
+					<i class="fas fa-genderless"></i>
+				</label>
+				<input type="text" name="gender" placeholder="gender" id="gender" required>
+                <label for="sexual_orientation">
+					<i class="fas fa-genderless"></i>
+				</label>
+				<input type="text" name="sexual_orientation" placeholder="sexual_orientation" id="sexual_orientation" required>
+                <label for="bio" style="height: 100px;">
+					<i class="fas fa-genderless"></i>
+				</label>
+				<input type="text" name="bio" placeholder="bio" id="bio" required style="height: 100px;">
+				<label for="listofinterest">
+					<i class="fas fa-genderless"></i>
+				</label>
+				<input type="text" name="listofinterest" placeholder="listofinterest" id="listofinterest" required>
+				<div class="msg">{{ msg }}</div>
+				<input type="submit" value="Save">
+			</form>
+		</div>
+{% endblock %}
