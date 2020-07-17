@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from flask_mysqldb import MySQL, MySQLdb
 from flask_socketio import SocketIO, emit
-from werkzeug.security import generate_password_hash, check_password_hash
 import bcrypt
 import re
 import os
@@ -72,18 +71,19 @@ def login():
         password = request.form['password']
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM accounts WHERE username = %s AND password = %s', (username, check_password_hash(password, password),))
+        cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         # Fetch one record and return result
         account = cursor.fetchone()
+        # cursor.close()
         # If account exists in accounts table in out database
         if account:
+            if bcrypt.checkpw(password.encode('utf-8'), account["password"].encode('utf-8')):
             # Create session data, we can access this data in other routes
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
+                session['loggedin'] = True
+                session['id'] = account['id']
+                session['username'] = account['username']
             # Redirect to home page
-            return redirect(url_for('home'))
+                return redirect(url_for('home'))
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!... Please check you login details'
@@ -116,7 +116,7 @@ def register():
         lastname = request.form['lastname']
         username = request.form['username']
         password = request.form['password']
-        hashdpw = generate_password_hash(password, method='sha256', salt_length=6)
+        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         email = request.form['email']
         
         #generate vkey
@@ -145,7 +145,7 @@ def register():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute(
-                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)', (username, firstname, lastname, hashdpw, email,vkey,user_email_status,picture,))
+                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)', (username, firstname, lastname, hashed, email,vkey,user_email_status,picture,))
             mysql.connection.commit()
             msg = 'You have successfully registered!'
             return redirect(url_for('login'))
