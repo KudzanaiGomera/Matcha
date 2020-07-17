@@ -29,15 +29,15 @@
         <a class="nav-link" href="{{ url_for('edit_profile') }}"style=" color: white;"><i class="fas fa-user-circle"></i>Edit_Profile<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{url_for('chat')}}" style=" color: white;"><i class="fas fa-user-circle"></i>ChatPage<span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{url_for('chat')}}" style=" color: white;"><i class="fas fa-comments"></i>ChatPage<span class="sr-only">(current)</span></a>
       </li>
        <li class="nav-item">
         <a class="nav-link" href="{{ url_for('logout') }}"style=" color: white;"><i class="fas fa-sign-out-alt"></i>Logout<span class="sr-only">(current)</span></a>
       </li>
       {% else %}
-        <li class="nav-item">
+        <!-- <li class="nav-item">
         <a class="nav-link" href="{{ url_for('login') }}"style=" color: white;"><i class="fas fa-sign-in-alt"></i>Login<span class="sr-only">(current)</span></a>
-      </li>
+      </li> -->
       {% endif %}
     </ul>
   </div>
