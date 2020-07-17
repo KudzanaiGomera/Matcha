@@ -5,8 +5,11 @@
 {% block content %}
 <div class="content-section">
     <div class="media" style="display: block;">
-        <img class="rounded-circle account-img" src="{{ url_for('static', filename='pictures/userimage.jpg')}}"><br>
-        <span><h4 class="account-heading">{{ username }}</h4></span>  
+        {% for row in profile %}
+        <img class="rounded-circle account-img" src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
+        {% endfor %}
+    </div>
+        <span><h4 class="account-heading">{{ username }}</h4></span> 
     </div>
 </div>
 <div class="content-section2">
@@ -22,7 +25,22 @@
             <a href="{{ url_for('upload') }}" style="display: block;">Upload</a>
             </span>
             </i>
+        <div class="icon_middle"></div>
+            <i class="fas fa-user-plus" align="middle"><span>
+            <a href="{{ url_for('profile_pic') }}" style="display: block;">DP</a>
+            </span>
+            </i>
         </div>
+    </div>
+</div>
+<div class="wrapper">
+    <h3>Gallery</h3>
+    <div class="img-area">
+         {% for row in record %}
+        <div class="single-img">
+            <img  src="{{ url_for('static', filename='pictures/' + row['image_path'])}}" alt="No image uploaded...">
+        </div>
+         {% endfor %}
     </div>
 </div>
 {% endblock content %}
