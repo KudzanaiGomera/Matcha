@@ -270,9 +270,10 @@ def handle_my_custom_event(json, methods=['GET', 'POST']):
 users = {}
 
 @app.route('/matcha/messages')
-def texts():
+def messages():
+    if 'loggedin' in session:
     #socketio.emit('server orginated', 'Something happened on the server!')
-    return render_template('messages.html') 
+        return render_template('messages.html', username=session['username']) 
 
 @socketio.on('message from user', namespace='/messages')
 def receive_message_from_user(message):
