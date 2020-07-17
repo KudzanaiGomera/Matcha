@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session, send_from_directory
 from flask_mysqldb import MySQL, MySQLdb
-from flask_socketio import SocketIO, emit
 from flask_mail import Mail
 from email.mime.text import MIMEText
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_socketio import SocketIO, emit, send
 import bcrypt
 import smtplib
 import re
@@ -73,18 +74,18 @@ def login():
         password = request.form['password']
         # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM accounts WHERE username = %s AND password = %s', (username, password,))
+        cursor.execute('SELECT * FROM accounts WHERE username = %s', (username,))
         # Fetch one record and return result
         account = cursor.fetchone()
         # If account exists in accounts table in out database
         if account:
+            if bcrypt.checkpw(password.encode('utf-8'), account["password"].encode('utf-8')):
             # Create session data, we can access this data in other routes
-            session['loggedin'] = True
-            session['id'] = account['id']
-            session['username'] = account['username']
+                session['loggedin'] = True
+                session['id'] = account['id']
+                session['username'] = account['username']
             # Redirect to home page
-            return redirect(url_for('home'))
+                return redirect(url_for('home'))
         else:
             # Account doesnt exist or username/password incorrect
             msg = 'Incorrect username/password!... Please check you login details'
@@ -117,6 +118,7 @@ def register():
         lastname = request.form['lastname']
         username = request.form['username']
         password = request.form['password']
+        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         email = request.form['email']
         
         #generate vkey
@@ -246,7 +248,7 @@ def extended_profile():
             #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-             'INSERT INTO accounts (NULL,%s, %s, %s, %s, %s,%s,%s) VALUES ( , firstname, lastname, username, password, email, vkey, user_email_status)')
+             'INSERT INTO accounts (NULL, %s, %s, %s, %s, %s, %s, %s) VALUES ( , firstname, lastname, username, password, email, vkey, user_email_status)')
         mysql.connection.commit()
         msg = 'You have successfully completed your profile' 
         return redirect(url_for('profile'))
@@ -255,9 +257,7 @@ def extended_profile():
             msg = 'Please fill out the form! ...'
     return render_template('extended_profile.html', msg=msg)
 
-
 # http://localhost:5000/matcha/edit_extended_profile - this will be the page the user is directed to complete his or her profile, we need to use both GET and POST requests
-
 
 @app.route('/matcha/edit_extended_profile', methods=['GET', 'POST'])
 def edit_extended_profile():
@@ -284,7 +284,6 @@ def edit_extended_profile():
     return render_template('edit_extended_profile.html', msg=msg)
 
 
-
 # http://localhost:5000/matcha/upload - this will be the registration page, we need to use both GET and POST requests
 
 def save_picture(fname):
@@ -295,7 +294,6 @@ def save_picture(fname):
     fname.save(picture_path)
     return picture_fn
 
-
 def save_profile_picture(fname):
     random_hex = secrets.token_hex(8)
     f_name, f_ext = os.path.splitext(fname.filename)
@@ -303,7 +301,6 @@ def save_profile_picture(fname):
     picture_path = os.path.join(app.root_path, 'static/profile_pic', picture_fn)
     fname.save(picture_path)
     return picture_fn
-
 
 @app.route('/matcha/upload', methods=['GET', 'POST'])
 def upload():
@@ -326,7 +323,6 @@ def upload():
         msg = 'No file choosen! ...'
     return render_template('upload.html', msg=msg)
 
-
 @app.route('/matcha/profile_pic', methods=['GET', 'POST'])
 def profile_pic():
     # Output message if something goes wrong...
@@ -348,9 +344,7 @@ def profile_pic():
         msg = 'No file choosen! ...'
     return render_template('upload.html', msg=msg)
 
-
 # http://localhost:5000/matcha/edit_profile - this will be the edit_profile page to change your firstname, lastname and email, we need to use both GET and POST requests
-
 
 @app.route('/matcha/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
@@ -417,7 +411,6 @@ def profile():
 
     # http://localhost:5000/matcha/home - this will be the home page, only accessible for loggedin users
 
-
 @app.route('/matcha/home')
 def home():
     # Check if user is loggedin
@@ -468,15 +461,40 @@ def chat():
 def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
 
-
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
-
+    
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
+users = {}
+
+@app.route('/matcha/messages')
+def messages():
+    if 'loggedin' in session:
+    #socketio.emit('server orginated', 'Something happened on the server!')
+        return render_template('messages.html', username=session['username']) 
+
+@socketio.on('message from user', namespace='/messages')
+def receive_message_from_user(message):
+    print('USER MESSAGE: {}'.format(message))
+    emit('from flask', message.upper(), broadcast=True)
+
+@socketio.on('username', namespace='/private')
+def receive_username(username):
+    users[username] = request.sid
+    #users.append({username : request.sid})
+    #print(users)
+    print('Username added!')
+
+@socketio.on('private_message', namespace='/private')
+def private_message(payload):
+    recipient_session_id = users[payload['username']]
+    message = payload['message']
+
+    emit('new_private_message', message, room=recipient_session_id)
 
 if __name__ == '__main__':
     app.secret_key = "kudzanai123456789gomera"
