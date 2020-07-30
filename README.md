@@ -18,6 +18,12 @@
 
 > pip install flask-socketio
 
+> pip install flask-mail
+
+> pip install email
+
+> pip install bcrypt
+
 > python app.py  
 or 
 > python .\app.py
