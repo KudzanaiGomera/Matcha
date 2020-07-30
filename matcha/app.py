@@ -79,7 +79,7 @@ def login():
         account = cursor.fetchone()
         # If account exists in accounts table in out database
         if account:
-            if bcrypt.checkpw(password.encode('utf-8'), account["password"].encode('utf-8')):
+            if bcrypt.checkpw(password.encode('utf-8'), account['password'].encode('utf-8')):
             # Create session data, we can access this data in other routes
                 session['loggedin'] = True
                 session['id'] = account['id']
@@ -146,7 +146,7 @@ def register():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute(
-                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s)', (username, firstname, lastname, password, email,vkey,picture,))
+                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s)', (username, firstname, lastname, hashed, email,vkey,picture,))
             mysql.connection.commit()
 
             #sending email
@@ -154,8 +154,8 @@ def register():
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             # make sure to change this part last parameter which is your password and as well the first which is the email
-            server.login('', '') #'email''pwd'
-            server.sendmail('kudzie.gom@gamil.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
+            server.login('matchamatcha23@gmail.com', 'Hacker23') #'email''pwd'
+            server.sendmail('matchamatcha23@gmail.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
             msg = 'You have successfully registered!'
             return redirect(url_for('check_email'))
 
@@ -194,9 +194,9 @@ def forget_pwd():
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             # make sure to change this part last parameter which is your password and as well the first which is the email
-            server.login('kudzie.gom@gmail.com', '')#'pwd'
+            server.login('matchamatcha23@gmail.com', 'Hacker23')#'pwd'
             # also change the first parameter whcih is the default sending email
-            server.sendmail('kudzie.gom@gamil.com', email, message.as_string())
+            server.sendmail('matchamatcha23@gmail.com', email, message.as_string())
             msg = 'You have received a link to reset password!'
             return redirect(url_for('forget_pwd_check.html'), msg=msg)
 
