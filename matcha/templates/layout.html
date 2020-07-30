@@ -2,52 +2,80 @@
 <html lang="en">
 	<head>
         <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE-edge">
-        <title>{% block title %} {% endblock %}</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <title>{% block title %} {% endblock %}</title>
+        <link href="{{ url_for('static' ,filename='css/menu/mega_menu.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static' ,filename='css/flaticon.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static' ,filename='css/responsive.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ url_for('static' ,filename='css/style.css')}}" rel="stylesheet" type="text/css" />
 		    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 	</head>
 	<body>
-  <nav class="navbar navbar-expand-lg" style="background-color: #fe3c72;">
-  <a class="navbar-brand" href="#" style=" color: white;">Matcha</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon" style="background-color: white"></span>
-  </button>
+        <header id="header" class="dark">
+          <div class="topbar">
+              <div class="container">
+                <div class="row">
+                  <div class="col-md-12">
+                      <ul class="list-inline text-uppercase top-menu">
+                        <li><a href="{{url_for('register')}}">register</a></li>
+                        <li><a href="{{url_for('login')}}">login</a></li>
+                      </ul>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="menu">
+              <nav id="menu" class="mega-menu">
+                  <section class="menu-list-items">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-md-12"> 
+                            <ul class="menu-logo">
+                              <li> <a href=""><img src="{{ url_for('static' ,filename='pictures/backgrounds/matcha2.png')}}" style="width:250px !important;" alt="logo" /> </a> </li>
+                            </ul>
+                            <ul class="menu-links">
+                              {% if session['loggedin'] == True %}
+                              <li><a href="{{url_for('home')}}"> Home <i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('profile')}}"> Profile <i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('edit_profile')}}"> Settings <i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('chat')}}"> Chat <i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('login')}}"> Logout <i class="fa fa-indicator"></i></a></li>
+                              {% else %}
+                              <li><a href="{{url_for('home')}}"> Home <i class="fa fa-indicator"></i></a></li>
+                              {% endif %}
+                            </ul>    
+                          </div>
+                      </div>
+                  </section>
+              </nav>
+          </div>
+        </header>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      {% if session['loggedin'] == True %}
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('home') }}" style=" color: white;"><i class="fas fa-home"></i>Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('profile') }}"style=" color: white;"><i class="fas fa-user-circle"></i>Profile<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('edit_profile') }}"style=" color: white;"><i class="fas fa-user-circle"></i>Edit_Profile<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{url_for('chat')}}" style=" color: white;"><i class="fas fa-comments"></i>ChatPage<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('messages') }}"style="color: white;"><i class="fas fa-user-circle"></i>Messages<span class="sr-only">(current)</span></a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('logout') }}"style=" color: white;"><i class="fas fa-sign-out-alt"></i>Logout<span class="sr-only">(current)</span></a>
-      </li>
-      {% else %}
-        <!-- <li class="nav-item">
-        <a class="nav-link" href="{{ url_for('login') }}"style=" color: white;"><i class="fas fa-sign-in-alt"></i>Login<span class="sr-only">(current)</span></a>
-      </li> -->
-      {% endif %}
-    </ul>
-  </div>
-</nav>
-        <div class="container">
+        <div class="">
             {% block content %} {% endblock %}
         </div>
+
+        <footer class="text-white text-center">
+          <div class="footer-widget">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="col-md-8">
+                  <div class="footer-logo mb-2"> <img class="img-center" src="{{ url_for('static' ,filename='images/matcha2.png')}}" style="width:250px !important;" alt="" /></div>
+                  <p class="text-white">© 2020 Matcha Group Project</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+
+        <script type="text/javascript" src="{{ url_for('static' ,filename='js/jquery/popper.min.js')}}"></script>
+        <script type="text/javascript" src="{{ url_for('static' ,filename='js/bootstrap/bootstrap-select.min.js')}}"></script> 
+        <script type="text/javascript" src="{{ url_for('static' ,filename='js/jquery/jquery.appear.js')}}"></script>  
+        <script type="text/javascript" src="{{ url_for('static' ,filename='js/menu/mega_menu.js')}}"></script> 
+        <script type="text/javascript" src="{{ url_for('static' ,filename='js/custom.js')}}"></script>
          <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	</body>
