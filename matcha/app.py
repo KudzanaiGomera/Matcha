@@ -49,10 +49,10 @@ def login():
     cursor.execute(''' CREATE TABLE IF NOT EXISTS profiles(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         user_id INT(11) NOT NULL UNIQUE,
-        gender VARCHAR(250) NOT NULL UNIQUE,
-        sexual_orientation VARCHAR(250) NOT NULL UNIQUE,
-        bio VARCHAR(250) NOT NULL UNIQUE,
-        listofinterest VARCHAR(250) NOT NULL UNIQUE,
+        gender VARCHAR(250) NOT NULL,
+        sexual_orientation VARCHAR(250) NOT NULL,
+        bio VARCHAR(250) NOT NULL,
+        listofinterest VARCHAR(250) NOT NULL,
         FOREIGN KEY(user_id) REFERENCES accounts(id)
     )''')
     print("Table created")
@@ -414,6 +414,42 @@ def profile():
 
         # User is loggedin show them the home page so they can check their profile
         return render_template('profile.html', username=session['username'], user_id=user_id, record=record,  profile=profile)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+    
+@app.route('/matcha/user_profile')
+def user_profile():
+    # Check if user is loggedin
+    record = ''
+    profile = ''
+    if 'loggedin' in session:
+        
+        user_id = session['id']
+        username = session['username']
+
+     
+     # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute(
+            'SELECT * FROM images WHERE user_id=%s', (user_id,))
+        # Fetch all record and return result
+        record = cursor.fetchall()
+        
+        #for profile picture
+        cursor.execute(
+            'SELECT * FROM accounts WHERE id=%s', (user_id,))
+        # Fetch all record and return result
+        profile = cursor.fetchall()
+
+        #for profiles tags eg bio
+        cursor.execute(
+             'SELECT * FROM profiles WHERE user_id=%s', (user_id,)
+        )
+        record2 = cursor.fetchall()
+
+        # User is loggedin show them the home page so they can check their profile
+        return render_template('user_profile.html', username=session['username'], user_id=user_id, record=record,  profile=profile, record2=record2)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 

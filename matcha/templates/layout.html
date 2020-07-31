@@ -12,6 +12,8 @@
         <link href="{{ url_for('static' ,filename='css/style.css')}}" rel="stylesheet" type="text/css" />
 		    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	</head>
 	<body>
         <header id="header" class="dark">
@@ -40,6 +42,7 @@
                               {% if session['loggedin'] == True %}
                               <li><a href="{{url_for('home')}}"> Home <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('profile')}}"> Profile <i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('extended_profile')}}"> Extended Profile <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('edit_profile')}}"> Settings <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('chat')}}"> Chat <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('login')}}"> Logout <i class="fa fa-indicator"></i></a></li>
@@ -70,13 +73,10 @@
             </div>
           </div>
         </footer>
-
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/jquery/popper.min.js')}}"></script>
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/bootstrap/bootstrap-select.min.js')}}"></script> 
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/jquery/jquery.appear.js')}}"></script>  
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/menu/mega_menu.js')}}"></script> 
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/custom.js')}}"></script>
-         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	</body>
 </html>
