@@ -13,6 +13,11 @@
 				</label>
 				<input type="email" name="email" placeholder="Email" id="email" required>
 				<div class="msg">{{ msg }}</div>
+				<label for="password">
+					<i class="fas fa-lock"></i>
+				</label>
+				<input type="password" name="password" placeholder="Password" id="password" required>
+				<div class="msg">{{ msg }}</div>
 				<input type="submit" value="Send">
                 <p>Oops you remembered your password<a href="{{ url_for('login') }}">Login</a>.</p>
 			</form>

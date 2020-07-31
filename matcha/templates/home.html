@@ -10,7 +10,7 @@
         {% for row in profile %}
         <div class="single-img">
             <img src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
-             <span><h4 class="account-heading" style="text-align: center;">{{ username }}</h4></span> 
+             <span><h4 class="account-heading" style="text-align: center;">{{ row['username'] }}</h4></span> 
         </div>
         {% endfor %}
       </div>

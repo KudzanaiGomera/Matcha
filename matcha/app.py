@@ -174,31 +174,38 @@ def forget_pwd():
     # Output message if something goes wrong...
     msg = ''
     # Check if "username", "password" and "email" POST requests exist (user submitted form)
-    if request.method == 'POST' and 'email' in request.form:
+    if request.method == 'POST' and 'email' in request.form and 'password' in request.form:
         # Create variables for easy access
         email = request.form['email']
+        password = request.form['password']
+        hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
-     # Check if account exists using MySQL
+
+        # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM accounts WHERE email = %s', (email,))
+        cursor.execute('SELECT * FROM accounts WHERE email = %s', (email,))
+        # Fetch one record and return result
         account = cursor.fetchone()
-        # If account does not exists show error page
-        if not account:
-            msg = 'This Email Account does not exists!...'
-            return redirect(url_for('Does_not_exists'))
-        else:
+        # If account exists in accounts table in out database
+
+        
+        if account:
+            if not re.match(r'^[A-Z]\w{5}.*[*@#]$', password):
+                msg = 'Please make sure your pwd contains atleast six alphanu characters, start with uppercase and end with atleast one special symbol(*,@,# etc)!'
+            else:
+                 cursor.execute(
+                    'UPDATE accounts SET password=%s WHERE email=%s', (hashed, email,))
+                 mysql.connection.commit()
+
             #sending email
-            message = MIMEText(
-                '<p>Click this link!<a href = "http://localhost:5000/matcha/reset"> to reset your password</a></p>', 'html')
+            message = MIMEText('<p>Click this link!<a href = "http://localhost:5000/matcha/home"> to reset your password click this link and login</a></p>', 'html')
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             # make sure to change this part last parameter which is your password and as well the first which is the email
-            server.login('matchamatcha23@gmail.com', 'Hacker23')#'pwd'
-            # also change the first parameter whcih is the default sending email
-            server.sendmail('matchamatcha23@gmail.com', email, message.as_string())
-            msg = 'You have received a link to reset password!'
-            return redirect(url_for('forget_pwd_check.html'), msg=msg)
+            server.login('matchamatcha23@gmail.com', 'Hacker23') #'email''pwd'
+            server.sendmail('matchamatcha23@gmail.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
+            msg = 'You have successfully registered!'
+            return redirect(url_for('forget_pwd_check'))
 
     elif request.method == 'POST':
         # Form is empty... (no POST data)
@@ -207,26 +214,27 @@ def forget_pwd():
     return render_template('forget_pwd.html', msg=msg)
 
 
-@app.route('/matcha/reset', methods=['GET', 'POST'])
-def reset():
-    # Output message if something goes wrong...
-    msg = ''
-    # User is loggedin show them the home page so they can change infomation on their profile
-    if request.method == 'POST' 'password' in request.form:
-        #Create variables for easy access
-        password = request.form['password']
-        user_id = session['id']
-        #check if the above already exits in the databasse
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'UPDATE profiles SET password=%s WHERE user_id=%s', (password, user_id,))
-        mysql.connection.commit()
-        msg = 'You have successfully reset your password'
-        return redirect(url_for('login'), msg=msg)
+# @app.route('/matcha/reset', methods=['GET', 'POST'])
+# def reset():
+#     # Output message if something goes wrong...
+#     msg = ''
+#     # User is loggedin show them the home page so they can change infomation on their profile
+#     if request.method == 'POST' 'password' in request.form:
+#         #Create variables for easy access
+#         password = request.form['password']
+#         email = request.form['email'] #todo
+#         # user_id = session['id']
+#         #check if the above already exits in the databasse
+#         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+#         cursor.execute(
+#             'UPDATE profiles SET password=%s WHERE user_id=%s', (password, user_id,))
+#         mysql.connection.commit()
+#         msg = 'You have successfully reset your password'
+#         return redirect(url_for('login'))
 
-    elif request.method == 'POST':
-        msg = 'Please fill out the form! ...'
-    return render_template('reset.html', msg=msg)
+#     elif request.method == 'POST':
+#         msg = 'Please fill out the form! ...'
+#     return render_template('reset.html', msg=msg)
 
 
 
@@ -248,7 +256,7 @@ def extended_profile():
             #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-             'INSERT INTO accounts (NULL, %s, %s, %s, %s, %s, %s, %s) VALUES ( , firstname, lastname, username, password, email, vkey, user_email_status)')
+             'INSERT INTO profiles VALUES (NULL, %s, %s, %s, %s, %s)',(user_id, gender, sexual_orientation, bio, listofinterest,))
         mysql.connection.commit()
         msg = 'You have successfully completed your profile' 
         return redirect(url_for('profile'))
