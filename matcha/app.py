@@ -44,7 +44,7 @@ def login():
         vkey VARCHAR(250) NOT NULL,
         picture VARCHAR(500) NOT NULL DEFAULT 'profile.jpg'
     )''')
-    print("Table created")
+    print("Table created: accounts")
 
     cursor.execute(''' CREATE TABLE IF NOT EXISTS profiles(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -55,7 +55,7 @@ def login():
         listofinterest VARCHAR(250) NOT NULL,
         FOREIGN KEY(user_id) REFERENCES accounts(id)
     )''')
-    print("Table created")
+    print("Table created: profiles")
 
     cursor.execute('''
    CREATE TABLE IF NOT EXISTS images(
@@ -64,7 +64,15 @@ def login():
         image_path VARCHAR(500) NOT NULL,
         FOREIGN KEY(user_id) REFERENCES accounts(id)
     )''')
-    print("Table created")
+    print("Table created: images")
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS likes(
+        likeid INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        user_id INT(11) NOT NULL,
+        FOREIGN KEY(user_id) REFERENCES accounts(id)
+    )''')
+    print("Table created: likes")
 
 
     # Check if "username" and "password" POST requests exist (user submitted form)
@@ -469,9 +477,28 @@ def home():
             'SELECT * FROM accounts', ())
         # Fetch all record and return result
         profile = cursor.fetchall()
-        return render_template('home.html', username=session['username'], profile=profile)
+        #select likes all likes for table
+        cursor.execute(
+            'SELECT * FROM likes', ())
+        likes = cursor.fetchall()
+
+        return render_template('home.html', username=session['username'], profile=profile, likes=likes)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
+def likes():
+    user_id = session['id']
+
+    if request.method == 'POST' and 'like' in request.form:
+        like = request.form['like']
+        user_id = session['user_id']
+        
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+
+        cursor.execute(
+                'INSERT INTO likes VALUES (user_id,)',(user_id))
+        mysql.connection.commit()
+        return render_template('home.html', like=like)
 
 @app.route('/matcha/check_email')
 def check_email():
@@ -493,6 +520,11 @@ def verify():
     # Output message if something goes wrong...
     # TODO
     return render_template('verify.html')
+
+@app.route('/matcha/preferences', methods=['GET', 'POST'])
+def preferences():
+    return render_template('preferences.html')
+
 
 
 @app.route('/matcha/chatpage')

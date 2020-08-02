@@ -41,7 +41,8 @@
                             <ul class="menu-links">
                               {% if session['loggedin'] == True %}
                               <li><a href="{{url_for('home')}}"> Home <i class="fa fa-indicator"></i></a></li>
-                              <li><a href="{{url_for('profile')}}"> Profile <i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('preferences')}}"> Preferences<i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('profile')}}"> Uploads <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('extended_profile')}}"> Extended Profile <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('edit_profile')}}"> Settings <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('chat')}}"> Chat <i class="fa fa-indicator"></i></a></li>

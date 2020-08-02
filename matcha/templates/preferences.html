@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}Preferences{% endblock %}
+
+{% block content %}
+<p class="account-heading" style="text-align: center;">{{ username }} Choose to your Preferences!</p>
+<div class="wrapper">
+    <h3>Preferences</h3>
+		<form action="{{ url_for('preferences') }}" method="post" autocomplete="off">
+				<div>
+                    <input type="radio" name="options" id="option1" value="option1"> Nature </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option2" value="option2"> Art </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option3" value="option3"> Music </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option4" value="option3"> Sports </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option5" value="option4"> Memes </input><br>
+                </div>
+		</form>
+</div>
+{% endblock %}

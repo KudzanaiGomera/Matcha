@@ -9,7 +9,9 @@
         <img class="rounded-circle account-img" src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
         {% endfor %}
     </div>
-        <span><h4 class="account-heading">{{ username }}</h4></span> 
+    {% for row in profile %}
+        <span><h4 class="account-heading">{{ row['username'] }}</h4></span> 
+    {% endfor %}
     </div>
 </div>
 <div class="content-section">
@@ -17,8 +19,8 @@
         {% for row in record2 %}
         <div class="single-img">
             <span><h6 class="account-heading">{{ row['gender'] }}</h6></span>
-            <span><h6 class="account-heading">{{ row['bio'] }}</h6></span>
             <span><h6 class="account-heading">{{ row['sexual_orientation'] }}</h6></span>
+            <span><h6 class="account-heading">{{ row['bio'] }}</h6></span>
             <span><h6 class="account-heading">{{ row['listofinterest'] }}</h6></span>
         </div>
          {% endfor %}

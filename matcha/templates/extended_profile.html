@@ -4,26 +4,44 @@
 
 {% block content %}
 <div class="register">
-            <h1>Extended Profile</h1>
+            <h3>Extended Profile</h3>
 			<form action="{{ url_for('extended_profile') }}" method="post" autocomplete="off">
                 <label for="gender">
 					<i class="fas fa-genderless"></i>
 				</label>
 				<input type="text" name="gender" placeholder="gender" id="gender" required>
-                <label for="sexual_orientation">
+                <br><label for="sexual_orientation">
 					<i class="fas fa-genderless"></i>
 				</label>
 				<input type="text" name="sexual_orientation" placeholder="sexual_orientation" id="sexual_orientation" required>
-                <label for="bio" style="height: 100px;">
+                <br><label for="bio" style="height: 100px;">
 					<i class="fas fa-genderless"></i>
 				</label>
 				<input type="text" name="bio" placeholder="bio" id="bio" required style="height: 100px;">
-				<label for="listofinterest">
+				<br><label for="listofinterest">
 					<i class="fas fa-genderless"></i>
 				</label>
 				<input type="text" name="listofinterest" placeholder="listofinterest" id="listofinterest" required>
 				<div class="msg">{{ msg }}</div>
 				<input type="submit" value="Edit">
+			</form><br>
+			<form>
+			<h3>What I'm about</h3>
+				<div>
+                    <input type="radio" name="options" id="option1" value="option1"> Nature </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option2" value="option2"> Art </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option3" value="option3"> Music </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option4" value="option3"> Sports </input><br>
+                </div>
+                <div>
+                    <input type="radio" name="options" id="option5" value="option4"> Memes </input><br>
+                </div>
 			</form>
 		</div>
 {% endblock %}
