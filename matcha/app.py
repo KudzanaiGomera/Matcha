@@ -44,7 +44,7 @@ def login():
         vkey VARCHAR(250) NOT NULL,
         picture VARCHAR(500) NOT NULL DEFAULT 'profile.jpg'
     )''')
-    print("Table created")
+    print("Table created: accounts")
 
     cursor.execute(''' CREATE TABLE IF NOT EXISTS profiles(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -55,7 +55,7 @@ def login():
         listofinterest VARCHAR(250) NOT NULL,
         FOREIGN KEY(user_id) REFERENCES accounts(id)
     )''')
-    print("Table created")
+    print("Table created: profiles")
 
     cursor.execute('''
    CREATE TABLE IF NOT EXISTS images(
@@ -64,7 +64,18 @@ def login():
         image_path VARCHAR(500) NOT NULL,
         FOREIGN KEY(user_id) REFERENCES accounts(id)
     )''')
-    print("Table created")
+    print("Table created: images")
+
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS likes(
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        user_id INT(11) NOT NULL,
+        profile_id INT(100) NOT NULL,
+        action TINYINT(1) DEFAULT '0',
+        FOREIGN KEY(user_id) REFERENCES accounts(id),
+        FOREIGN KEY(profile_id) REFERENCES accounts(id)
+    )''')
+    print("Table created: likes")
 
 
     # Check if "username" and "password" POST requests exist (user submitted form)
@@ -455,13 +466,12 @@ def user_profile():
 
     # http://localhost:5000/matcha/home - this will be the home page, only accessible for loggedin users
 
-@app.route('/matcha/home')
+@app.route('/matcha/home', methods=['GET', 'POST'])
 def home():
     # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
         user_id = session['id']
-
      # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #for profile picture
@@ -469,9 +479,33 @@ def home():
             'SELECT * FROM accounts', ())
         # Fetch all record and return result
         profile = cursor.fetchall()
+        
+        if request.method == 'POST':
+            profile_id = request.form['profile_id']
+        # for row in profile:
+        #     profile_id = row['id'] #TODO
+        #select likes all likes for table
+        if request.method == 'POST' and 'like' in request.form:
+            # store in variable
+            action = request.form['like'] #todo
+            action = 1
+        
+            cursor.execute(
+                'INSERT INTO likes VALUES (NULL,%s, %s, %s)', (user_id, profile_id, action,)
+            )
+            mysql.connection.commit()
+        elif request.method == 'POST' and 'dislike' in request.form:
+            action = request.form['dislike']
+            action = 0
+
+            cursor.execute(
+                'DELETE FROM likes WHERE profile_id=%s', (profile_id,)
+            )
+            mysql.connection.commit()
         return render_template('home.html', username=session['username'], profile=profile)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
+
 
 @app.route('/matcha/check_email')
 def check_email():
@@ -493,6 +527,11 @@ def verify():
     # Output message if something goes wrong...
     # TODO
     return render_template('verify.html')
+
+@app.route('/matcha/preferences', methods=['GET', 'POST'])
+def preferences():
+    return render_template('preferences.html')
+
 
 
 @app.route('/matcha/chatpage')
