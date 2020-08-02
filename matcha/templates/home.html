@@ -11,20 +11,12 @@
         <div class="single-img">
             <img src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
             <a href="{{url_for('user_profile')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['username'] }}</h4></span></a>
-            <div>
-                <form method="post" onclick="submit">
-                    <div>
-                        <input type="radio" name="options" id="option1" value="like" onclick="submit"> Like
-                    </div>
-                    <div>
-                        <input type="radio" name="options" id="option2" value="dislike"> Dislike<br>
-                    </div>
-                    <div>
-                        <input type="radio" name="options" id="option2" value="option3"> Connect<br>
-                    </div>
-                    <input type="submit">
+                <form action="{{url_for('home')}}" method="post"> 
+                        <input type="checkbox" name="like">Like
+                        <input type="submit">
                 </form>
-            </div>
+                        <input type="checkbox" name="extras" value="dislike">Dislike</input>
+                        <input type="checkbox" name="extras" value="connect">Connect</input>
         </div>
         {% endfor %}
       </div>

@@ -68,9 +68,12 @@ def login():
 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS likes(
-        likeid INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         user_id INT(11) NOT NULL,
-        FOREIGN KEY(user_id) REFERENCES accounts(id)
+        profile_id INT(100) NOT NULL,
+        action tinyint(1) DEFAULT '0',
+        FOREIGN KEY(user_id) REFERENCES accounts(id),
+        FOREIGN KEY(profile_id) REFERENCES accounts(id)
     )''')
     print("Table created: likes")
 
@@ -463,13 +466,12 @@ def user_profile():
 
     # http://localhost:5000/matcha/home - this will be the home page, only accessible for loggedin users
 
-@app.route('/matcha/home')
+@app.route('/matcha/home', methods=['GET', 'POST'])
 def home():
     # Check if user is loggedin
     if 'loggedin' in session:
         # User is loggedin show them the home page
         user_id = session['id']
-
      # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #for profile picture
@@ -477,28 +479,25 @@ def home():
             'SELECT * FROM accounts', ())
         # Fetch all record and return result
         profile = cursor.fetchall()
+        for row in profile:
+            profile_id = row['id']
         #select likes all likes for table
-        cursor.execute(
-            'SELECT * FROM likes', ())
-        likes = cursor.fetchall()
-
-        return render_template('home.html', username=session['username'], profile=profile, likes=likes)
+        if request.method == 'POST' and 'like' in request.form:
+            # store in variable
+            action = request.form['like'] #todo
+            action = 1
+        
+            cursor.execute(
+                'INSERT INTO likes VALUES (NULL,%s, %s, %s)', (user_id, profile_id, action,)
+            )
+            print(user_id)
+            print(profile_id)
+            print(action)
+        
+        return render_template('home.html', username=session['username'], profile=profile, profile_id = profile_id)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
-def likes():
-    user_id = session['id']
-
-    if request.method == 'POST' and 'like' in request.form:
-        like = request.form['like']
-        user_id = session['user_id']
-        
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-
-        cursor.execute(
-                'INSERT INTO likes VALUES (user_id,)',(user_id))
-        mysql.connection.commit()
-        return render_template('home.html', like=like)
 
 @app.route('/matcha/check_email')
 def check_email():
