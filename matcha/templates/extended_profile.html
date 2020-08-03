@@ -12,36 +12,49 @@
 				<input type="text" name="gender" placeholder="gender" id="gender" required>
                 <br><label for="sexual_orientation">
 					<i class="fas fa-genderless"></i>
-				</label>
+					</label>
 				<input type="text" name="sexual_orientation" placeholder="sexual_orientation" id="sexual_orientation" required>
                 <br><label for="bio" style="height: 100px;">
 					<i class="fas fa-genderless"></i>
-				</label>
-				<input type="text" name="bio" placeholder="bio" id="bio" required style="height: 100px;">
-				<br><label for="listofinterest">
+					</label>
+				<input type="text" name="bio" placeholder="bio" id="bio" style="height: 100px;" required>
+				<br>
+				<h6>My Interest</h6><br>
+				<label for="interest" style="height: 100px;">
 					<i class="fas fa-genderless"></i>
 				</label>
-				<input type="text" name="listofinterest" placeholder="listofinterest" id="listofinterest" required>
+					<input type="checkbox" name="nature" id="nature"> Nature </input><br>
+				<label for="interest" style="height: 100px;">
+					<i class="fas fa-genderless"></i>
+				</label>
+					<input type="checkbox" name="art" id="art"> Art </input><br>
+				<label for="interest" style="height: 100px;">
+					<i class="fas fa-genderless"></i>
+				</label>
+				    <input type="checkbox" name="music" id="music"> Music </input><br>
+				<label for="interest" style="height: 100px;">
+					<i class="fas fa-genderless"></i>
+				</label>
+					<input type="checkbox" name="sports" id="sports"> Sports </input><br>
+				<label for="interest" style="height: 100px;">
+					<i class="fas fa-genderless"></i>
+				</label>
+					<input type="checkbox" name="memes" id="memes"> Memes </input><br>
+				<h6>Age Range</h6><br>
+				<label for="age" style="height: 100px;">
+					<i class="fas fa-genderless"></i>
+				</label>
+						<input type="radio" name="age1" id="age1"> 18 - 25 </input><br>
+					<label for="age" style="height: 100px;">
+						<i class="fas fa-genderless"></i>
+					</label>
+						<input type="radio" name="age2" id="age2"> 26 - 35 </input><br>
+					<label for="age" style="height: 100px;">
+						<i class="fas fa-genderless"></i>
+					</label>
+						<input type="radio" name="age3" id="age3"> 36 - 50 </input><br>
 				<div class="msg">{{ msg }}</div>
 				<input type="submit" value="Edit">
-			</form><br>
-			<form>
-			<h3>What I'm about</h3>
-				<div>
-                    <input type="radio" name="options" id="option1" value="option1"> Nature </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option2" value="option2"> Art </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option3" value="option3"> Music </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option4" value="option3"> Sports </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option5" value="option4"> Memes </input><br>
-                </div>
-			</form>
+			</form> 
 		</div>
 {% endblock %}

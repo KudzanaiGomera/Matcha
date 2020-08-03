@@ -52,7 +52,14 @@ def login():
         gender VARCHAR(250) NOT NULL,
         sexual_orientation VARCHAR(250) NOT NULL,
         bio VARCHAR(250) NOT NULL,
-        listofinterest VARCHAR(250) NOT NULL,
+        nature TINYINT(1) DEFAULT '0',
+        art TINYINT(1) DEFAULT '0',
+        music TINYINT(1) DEFAULT '0',
+        sports TINYINT(1) DEFAULT '0',
+        memes TINYINT(1) DEFAULT '0',
+        age1 TINYINT(1) DEFAULT '0',
+        age2 TINYINT(1) DEFAULT '0',
+        age3 TINYINT(1) DEFAULT '0',
         FOREIGN KEY(user_id) REFERENCES accounts(id)
     )''')
     print("Table created: profiles")
@@ -256,18 +263,54 @@ def forget_pwd():
 def extended_profile():
     # Output message if something goes wrong...
     msg = ''
+    print("Here1")
         # User is loggedin show them the home page so they can change infomation on their profile
-    if request.method == 'POST' and 'gender' in request.form and 'sexual_orientation' in request.form and 'bio' in request.form and 'listofinterest' in request.form:
-            #Create variables for easy access
-        gender = request.form['gender']
-        sexual_orientation = request.form['sexual_orientation']
-        bio = request.form['bio']
-        listofinterest = request.form['listofinterest']
+        #Create variables for easy access
+    if request.method == 'POST':
         user_id = session['id']
+        if 'gender' in request.form:
+            gender = request.form['gender']
+        if 'sexual_orientation' in request.form:
+            sexual_orientation = request.form['sexual_orientation']
+        if 'bio' in request.form:
+            bio = request.form['bio']
+        if 'nature' in request.form:
+            nature = 1
+        else:
+            nature = 0
+        if 'art' in request.form:
+            art = 1
+        else:
+            art = 0
+        if 'music' in request.form:
+            music = 1
+        else:
+            music = 0
+        if 'sports' in request.form:
+            sports = 1
+        else:
+            sports = 0
+        if 'memes' in request.form:
+            memes = 1
+        else:
+            memes = 0
+        if 'age1' in request.form:
+            age1 = 1
+        else:
+            age1 = 0
+        if 'age2' in request.form:
+            age2 = 1
+        else:
+            age2 = 0
+        if 'age3' in request.form:
+            age3 = 1
+        else:
+            age3 = 0
+            
             #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-             'INSERT INTO profiles VALUES (NULL, %s, %s, %s, %s, %s)',(user_id, gender, sexual_orientation, bio, listofinterest,))
+             'INSERT INTO profiles VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',(user_id, gender, sexual_orientation, bio, nature, art, music, sports, memes,age1, age2, age3,))
         mysql.connection.commit()
         msg = 'You have successfully completed your profile' 
         return redirect(url_for('profile'))
@@ -282,18 +325,54 @@ def extended_profile():
 def edit_extended_profile():
     # Output message if something goes wrong...
     msg = ''
+    print("Here1")
         # User is loggedin show them the home page so they can change infomation on their profile
-    if request.method == 'POST' and 'gender' in request.form and 'sexual_orientation' in request.form and 'bio' in request.form and 'listofinterest' in request.form:
-            #Create variables for easy access
-        gender = request.form['gender']
-        sexual_orientation = request.form['sexual_orientation']
-        bio = request.form['bio']
-        listofinterest = request.form['listofinterest']
+        #Create variables for easy access
+    if request.method == 'POST':
         user_id = session['id']
+        if 'gender' in request.form:
+            gender = request.form['gender']
+        if 'sexual_orientation' in request.form:
+            sexual_orientation = request.form['sexual_orientation']
+        if 'bio' in request.form:
+            bio = request.form['bio']
+        if 'nature' in request.form:
+            nature = 0
+        else:
+            nature = 1
+        if 'art' in request.form:
+            art = 0
+        else:
+            art = 1
+        if 'music' in request.form:
+            music = 0
+        else:
+            music = 1
+        if 'sports' in request.form:
+            sports = 0
+        else:
+            sports = 1
+        if 'memes' in request.form:
+            memes = 0
+        else:
+            memes = 1
+        if 'age1' in request.form:
+            age1 = 0
+        else:
+            age1 = 1
+        if 'age2' in request.form:
+            age2 = 0
+        else:
+            age2 = 1
+        if 'age3' in request.form:
+            age3 = 0
+        else:
+            age3 = 1
+            
             #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'UPDATE profiles SET gender=%s, sexual_orientation=%s, bio=%s, listofinterest=%s WHERE user_id=%s', (gender, sexual_orientation, bio, listofinterest, user_id,))
+            'UPDATE profiles SET gender=%s, sexual_orientation=%s, bio=%s, nature=%s, art=%s, music=%s, sports=%s, memes=%s, age1=%s, age2=%s, age3=%s WHERE user_id=%s ', (gender, sexual_orientation, bio, nature, art, music, sports, memes, age1, age2, age3, user_id,))
         mysql.connection.commit()
         msg = 'You have successfully edit your profile'
         return redirect(url_for('profile'))
