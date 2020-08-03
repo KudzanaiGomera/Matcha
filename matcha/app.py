@@ -565,42 +565,42 @@ def preferences():
         if request.method == 'POST':
             if 'nature' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where nature=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.nature=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             if 'art' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where art=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.art=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             if 'music' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where music=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.music=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             if 'sports' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where sports=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.sports=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             if 'memes' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where memes=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.memes=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             if 'age1' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where age1=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.age1=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             if 'age2' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where age2=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.age2=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             if 'age3' in request.form:
                 cursor.execute(
-                    'SELECT * FROM profiles where age3=%s', (1,))
+                    'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.age3=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
             # print(profile)
@@ -645,9 +645,10 @@ def home():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #for profile picture
         cursor.execute(
-            'SELECT * FROM accounts', ())
+            'SELECT username, picture, profile_id, COUNT(*) FROM accounts, popularity WHERE accounts.id = profile_id GROUP BY profile_id ORDER BY COUNT(*) DESC', ())
         # Fetch all record and return result
         profile = cursor.fetchall()
+        print(profile)
         
         if request.method == 'POST':
             profile_id = request.form['profile_id']

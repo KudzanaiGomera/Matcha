@@ -9,7 +9,8 @@
     <div class="img-area">
         {% for row in profile %}
         <div class="single-img">
-            <a href="{{url_for('preferences')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['user_id'] }}</h4></span></a>
+            <img src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
+            <a href="{{url_for('preferences')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['username'] }}</h4></span></a>
             <!-- <a href="{{url_for('preferences')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['id'] }}</h4></span></a> -->
         </div>
         {% endfor %}

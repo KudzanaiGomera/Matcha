@@ -1,15 +1,15 @@
 #!/bin/bash
 
-pip install flask
+pip3 install flask
 
-pip install flask-socketio
+pip3 install flask-socketio
 
-pip install flask-mail
+pip3 install flask-mail
 
-pip install email
+pip3 install email
 
-pip install bcrypt
+pip3 install bcrypt
 
-pip install flask-mysqldb
+pip3 install flask-mysqldb
 
 sudo apt-get install libmysqlclient-dev

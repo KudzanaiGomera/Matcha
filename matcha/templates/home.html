@@ -11,18 +11,18 @@
         <div class="single-img">
             <img src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
             <a href="{{url_for('user_profile')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['username'] }}</h4></span></a>
-            <a href="{{url_for('user_profile')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['id'] }}</h4></span></a>
+            <!-- <a href="{{url_for('user_profile')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['profile_id'] }}</h4></span></a> -->
                 <form action="{{url_for('home')}}" method="post"> 
                         <input type="checkbox" name="like"> Like
-                        <input type="submit" name="profile_id" value="{{  row['id'] }}" id="profile_id">
+                        <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
                 </form>
                 <form action="{{url_for('home')}}" method="post"> 
                     <input type="checkbox" name="dislike"> Dislike
-                    <input type="submit" name="profile_id" value="{{  row['id'] }}" id="profile_id">
+                    <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
                 </form>
                 <form action="{{url_for('home')}}" method="post"> 
                     <input type="checkbox" name="upvote"> Upvote
-                    <input type="submit" name="profile_id" value="{{  row['id'] }}" id="profile_id">
+                    <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
                 </form>
         </div>
         {% endfor %}
