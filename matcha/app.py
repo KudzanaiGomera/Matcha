@@ -74,6 +74,15 @@ def login():
     print("Table created: images")
 
     cursor.execute('''
+   CREATE TABLE IF NOT EXISTS popularity(
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        profile_id INT(11) NOT NULL,
+        upvote INT NOT NULL DEFAULT '1',
+        FOREIGN KEY(profile_id) REFERENCES accounts(id)
+    )''')
+    print("Table created: popularity")
+
+    cursor.execute('''
     CREATE TABLE IF NOT EXISTS likes(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         user_id INT(11) NOT NULL,
@@ -545,6 +554,87 @@ def user_profile():
 
     # http://localhost:5000/matcha/home - this will be the home page, only accessible for loggedin users
 
+@app.route('/matcha/preferences', methods=['GET', 'POST'])
+def preferences():
+    profile = ''
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        user_id = session['id']
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        if request.method == 'POST':
+            if 'nature' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where nature=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            if 'art' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where art=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            if 'music' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where music=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            if 'sports' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where sports=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            if 'memes' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where memes=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            if 'age1' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where age1=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            if 'age2' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where age2=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            if 'age3' in request.form:
+                cursor.execute(
+                    'SELECT * FROM profiles where age3=%s', (1,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+            # print(profile)
+        # if request.method == 'POST':
+        #     profile_id = request.form['profile_id']
+        # for row in profile:
+        #     profile_id = row['id'] #TODO
+        #select likes all likes for table
+        # if request.method == 'POST' and 'like' in request.form:
+            # store in variable
+            # action = request.form['like'] #todo
+        #     action = 1
+        
+        #     cursor.execute(
+        #         'INSERT INTO likes VALUES (NULL,%s, %s, %s)', (user_id, profile_id, action,)
+        #     )
+        #     mysql.connection.commit()
+        # elif request.method == 'POST' and 'dislike' in request.form:
+        #     action = request.form['dislike']
+        #     action = 0
+
+        #     cursor.execute(
+        #         'DELETE FROM likes WHERE profile_id=%s', (profile_id,)
+        #     )
+        #     mysql.connection.commit()
+        return render_template('preferences.html', username=session['username'], profile=profile)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+       
+
+
+
+
 @app.route('/matcha/home', methods=['GET', 'POST'])
 def home():
     # Check if user is loggedin
@@ -581,6 +671,27 @@ def home():
                 'DELETE FROM likes WHERE profile_id=%s', (profile_id,)
             )
             mysql.connection.commit()
+        
+        if request.method == 'POST':
+            profile_id = request.form['profile_id']
+
+        # cursor.execute(
+        #     'SELECT COUNT(*) FROM `popularity` WHERE profile_id=%s', (profile_id,))
+        # # Fetch all record and return result
+        # counter = cursor.fetchall()
+        # print(counter)
+        
+
+        if request.method == 'POST' and 'upvote' in request.form:
+            upvote = request.form['upvote']
+            upvote = 1
+            upvote += 1 
+
+            cursor.execute(
+                'INSERT INTO popularity VALUES (NULL, %s, %s)', (profile_id, upvote,)
+            )
+            mysql.connection.commit()
+
         return render_template('home.html', username=session['username'], profile=profile)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
@@ -606,12 +717,6 @@ def verify():
     # Output message if something goes wrong...
     # TODO
     return render_template('verify.html')
-
-@app.route('/matcha/preferences', methods=['GET', 'POST'])
-def preferences():
-    return render_template('preferences.html')
-
-
 
 @app.route('/matcha/chatpage')
 def chat():

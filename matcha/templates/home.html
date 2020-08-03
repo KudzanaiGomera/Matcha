@@ -22,7 +22,7 @@
                 </form>
                 <form action="{{url_for('home')}}" method="post"> 
                     <input type="checkbox" name="upvote"> Upvote
-                    <input type="submit">
+                    <input type="submit" name="profile_id" value="{{  row['id'] }}" id="profile_id">
                 </form>
         </div>
         {% endfor %}

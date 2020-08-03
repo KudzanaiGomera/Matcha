@@ -5,23 +5,52 @@
 {% block content %}
 <p class="account-heading" style="text-align: center;">{{ username }} Choose to your Preferences!</p>
 <div class="wrapper">
+    <h3>Users</h3>
+    <div class="img-area">
+        {% for row in profile %}
+        <div class="single-img">
+            <a href="{{url_for('preferences')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['user_id'] }}</h4></span></a>
+            <!-- <a href="{{url_for('preferences')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['id'] }}</h4></span></a> -->
+        </div>
+        {% endfor %}
+      </div>
     <h3>Preferences</h3>
-		<form action="{{ url_for('preferences') }}" method="post" autocomplete="off">
-				<div>
-                    <input type="radio" name="options" id="option1" value="option1"> Nature </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option2" value="option2"> Art </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option3" value="option3"> Music </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option4" value="option3"> Sports </input><br>
-                </div>
-                <div>
-                    <input type="radio" name="options" id="option5" value="option4"> Memes </input><br>
-                </div>
-		</form>
+    <form action="{{ url_for('preferences') }}" method="post" autocomplete="off">
+        <label for="interest" style="height: 100px;">
+            <i class="fas fa-genderless"></i>
+        </label>
+            <input type="checkbox" name="nature" id="nature"> Nature </input><br>
+        <label for="interest" style="height: 100px;">
+            <i class="fas fa-genderless"></i>
+        </label>
+            <input type="checkbox" name="art" id="art"> Art </input><br>
+        <label for="interest" style="height: 100px;">
+            <i class="fas fa-genderless"></i>
+        </label>
+            <input type="checkbox" name="music" id="music"> Music </input><br>
+        <label for="interest" style="height: 100px;">
+            <i class="fas fa-genderless"></i>
+        </label>
+            <input type="checkbox" name="sports" id="sports"> Sports </input><br>
+        <label for="interest" style="height: 100px;">
+            <i class="fas fa-genderless"></i>
+        </label>
+            <input type="checkbox" name="memes" id="memes"> Memes </input><br>
+        <h6>Age Range</h6><br>
+        <label for="age" style="height: 100px;">
+            <i class="fas fa-genderless"></i>
+        </label>
+                <input type="radio" name="age1" id="age1"> 18 - 25 </input><br>
+            <label for="age" style="height: 100px;">
+                <i class="fas fa-genderless"></i>
+            </label>
+                <input type="radio" name="age2" id="age2"> 26 - 35 </input><br>
+            <label for="age" style="height: 100px;">
+                <i class="fas fa-genderless"></i>
+            </label>
+                <input type="radio" name="age3" id="age3"> 36 - 50 </input><br>
+        <div class="msg">{{ msg }}</div>
+        <input type="submit" value="Edit">
+    </form> 
 </div>
 {% endblock %}
