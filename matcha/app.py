@@ -4,6 +4,7 @@ from flask_mail import Mail
 from email.mime.text import MIMEText
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, emit, send
+from flask import jsonify
 import bcrypt
 import smtplib
 import re
@@ -14,6 +15,7 @@ import requests
 import time
 import datetime
 import json
+import dbconnection
 
 
 
@@ -39,19 +41,19 @@ def login():
     msg = ''
     # Creating all the db and tables needed can add your if necessary
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute('''CREATE DATABASE IF NOT EXISTS matcha''')
-    print("Databse created")
+    
 
     cursor.execute('''CREATE TABLE  IF NOT EXISTS accounts(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         username VARCHAR(250) NOT NULL UNIQUE,
-        firstname VARCHAR(250) NOT NULL UNIQUE,
-        lastname VARCHAR(250) NOT NULL UNIQUE,
+        firstname VARCHAR(250) NOT NULL,
+        lastname VARCHAR(250) NOT NULL,
         password VARCHAR(250) NOT NULL,
         email VARCHAR(250) NOT NULL UNIQUE,
         vkey VARCHAR(250) NOT NULL,
-        picture VARCHAR(500) NOT NULL DEFAULT 'profile.jpg'
-    )''')
+        picture VARCHAR(500) NOT NULL DEFAULT 'profile.jpg',
+        user_valid TINYINT(1) NOT NULL DEFAULT '0'
+        )''')
     print("Table created: accounts")
 
     cursor.execute(''' CREATE TABLE IF NOT EXISTS profiles(
@@ -69,20 +71,20 @@ def login():
         age2 TINYINT(1) DEFAULT '0',
         age3 TINYINT(1) DEFAULT '0',
         FOREIGN KEY(user_id) REFERENCES accounts(id)
-    )''')
+        )''')
     print("Table created: profiles")
 
     cursor.execute('''
-   CREATE TABLE IF NOT EXISTS images(
+        CREATE TABLE IF NOT EXISTS images(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         user_id INT(11) NOT NULL,
         image_path VARCHAR(500) NOT NULL,
         FOREIGN KEY(user_id) REFERENCES accounts(id)
-    )''')
+        )''')
     print("Table created: images")
 
     cursor.execute('''
-   CREATE TABLE IF NOT EXISTS popularity(
+        CREATE TABLE IF NOT EXISTS popularity(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         profile_id INT(11) NOT NULL,
         upvote INT NOT NULL DEFAULT '1',
@@ -99,7 +101,7 @@ def login():
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(user_id) REFERENCES accounts(id),
         FOREIGN KEY(profile_id) REFERENCES accounts(id)
-    )''')
+        )''')
     print("Table created: likes")
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS notification(
@@ -109,7 +111,7 @@ def login():
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         payload_json TEXT,
         FOREIGN KEY(user_id) REFERENCES accounts(id)
-    )''')
+        )''')
     print("Table created: notifications")
 
     cursor.execute('''CREATE TABLE IF NOT EXISTS location(
@@ -117,9 +119,10 @@ def login():
         user_id INT(100) NOT NULL,
         location VARCHAR(250) NULL DEFAULT 'pretoria',
         FOREIGN KEY(user_id) REFERENCES accounts(id)
-    )''')
+        )''')
     print("Table created: location")
 
+   
 
     # Check if "username" and "password" POST requests exist (user submitted form)
     if request.method == 'POST' and 'username' in request.form and 'password' in request.form:
@@ -179,6 +182,7 @@ def register():
         v = username
         vk = hashlib.md5(username.encode())
         vkey = vk.hexdigest()
+        upvote = 1
 
         picture = 'profile.jpg'
      # Check if account exists using MySQL
@@ -274,57 +278,71 @@ def forget_pwd():
 def extended_profile():
     # Output message if something goes wrong...
     msg = ''
-    print("Here1")
+    print(get_my_ip())
         # User is loggedin show them the home page so they can change infomation on their profile
         #Create variables for easy access
     if request.method == 'POST':
         user_id = session['id']
-        if 'gender' in request.form:
-            gender = request.form['gender']
-        if 'sexual_orientation' in request.form:
-            sexual_orientation = request.form['sexual_orientation']
-        if 'bio' in request.form:
-            bio = request.form['bio']
-        if 'nature' in request.form:
-            nature = 1
-        else:
-            nature = 0
-        if 'art' in request.form:
-            art = 1
-        else:
-            art = 0
-        if 'music' in request.form:
-            music = 1
-        else:
-            music = 0
-        if 'sports' in request.form:
-            sports = 1
-        else:
-            sports = 0
-        if 'memes' in request.form:
-            memes = 1
-        else:
-            memes = 0
-        if 'age1' in request.form:
-            age1 = 1
-        else:
-            age1 = 0
-        if 'age2' in request.form:
-            age2 = 1
-        else:
-            age2 = 0
-        if 'age3' in request.form:
-            age3 = 1
-        else:
-            age3 = 0
-            
-            #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-             'INSERT INTO profiles VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',(user_id, gender, sexual_orientation, bio, nature, art, music, sports, memes,age1, age2, age3,))
-        mysql.connection.commit()
-        msg = 'You have successfully completed your profile' 
-        return redirect(url_for('profile'))
+            'SELECT * FROM profiles WHERE user_id = %s', (user_id,))
+        account = cursor.fetchone()
+        # If account exists show error and validation checks
+        if account:
+            msg = 'Please Visit Edit Extended Profile you already filled this form!...'
+        else:
+            if 'gender' in request.form:
+                gender = request.form['gender']
+            if 'sexual_orientation' in request.form:
+                sexual_orientation = request.form['sexual_orientation']
+            else:
+                sexual_orientation = 'bisexual'
+            if 'bio' in request.form:
+                bio = request.form['bio']
+            if 'nature' in request.form:
+                nature = 1
+            else:
+                nature = 0
+            if 'art' in request.form:
+                art = 1
+            else:
+                art = 0
+            if 'music' in request.form:
+                music = 1
+            else:
+                music = 0
+            if 'sports' in request.form:
+                sports = 1
+            else:
+                sports = 0
+            if 'memes' in request.form:
+                memes = 1
+            else:
+                memes = 0
+
+            if 'age1' in request.form:
+                age1 = 1
+            else:
+                age1 = 0
+            if 'age2' in request.form:
+                age2 = 1
+            else:
+                age2 = 0
+            if 'age3' in request.form:
+                age3 = 1
+            else:
+                age3 = 0
+                #check if the above already exits in the databasse
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(
+                'INSERT INTO profiles VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',(user_id, gender, sexual_orientation, bio, nature, art, music, sports, memes,age1, age2, age3,))
+            mysql.connection.commit()
+            cursor.execute(
+                'INSERT INTO popularity VALUES (NULL, %s, %s)', (user_id, 1,)
+            )
+            mysql.connection.commit()
+            msg = 'You have successfully completed your profile' 
+            return redirect(url_for('profile'))
 
     elif request.method == 'POST':
             msg = 'Please fill out the form! ...'
@@ -345,6 +363,8 @@ def edit_extended_profile():
             gender = request.form['gender']
         if 'sexual_orientation' in request.form:
             sexual_orientation = request.form['sexual_orientation']
+        else:
+            sexual_orientation = 'bisexual'
         if 'bio' in request.form:
             bio = request.form['bio']
         if 'nature' in request.form:
@@ -661,7 +681,6 @@ def home():
         if request.method == 'POST' and 'upvote' in request.form:
             upvote = request.form['upvote']
             upvote = 1
-            upvote += 1 
 
             cursor.execute(
                 'INSERT INTO popularity VALUES (NULL, %s, %s)', (profile_id, upvote,)
@@ -777,6 +796,9 @@ def map_func():
             longitude = data['items'][0]['position']['lng']
             #print(longitude)
         return render_template('map.html',apikey=api_key,latitude=latitude,longitude=longitude)
+
+def get_my_ip():
+    return jsonify({'ip': request.remote_addr}), 200
     
 if __name__ == '__main__':
     app.secret_key = "kudzanai123456789gomera"

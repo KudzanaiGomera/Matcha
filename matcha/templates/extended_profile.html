@@ -6,17 +6,24 @@
 <div class="register">
             <h3>Extended Profile</h3>
 			<form action="{{ url_for('extended_profile') }}" method="post" autocomplete="off">
-                <label for="gender">
-					<i class="fas fa-genderless"></i>
+                <h6>Gender</h6><br>
+				<label for="gender" style="height: 100px;">
+					<i class="fas fa-gender"></i>
 				</label>
-				<input type="text" name="gender" placeholder="gender" id="gender" required>
-                <br><label for="sexual_orientation">
-					<i class="fas fa-genderless"></i>
+						<input type="radio" name="gender" id="male" value="male"> Male </input><br>
+					<label for="gender" style="height: 100px;">
+						<i class="fas fa-gender"></i>
 					</label>
-				<input type="text" name="sexual_orientation" placeholder="sexual_orientation" id="sexual_orientation" required>
-                <br><label for="bio" style="height: 100px;">
-					<i class="fas fa-genderless"></i>
+						<input type="radio" name="gender" id="female" value="female"> Female </input><br>
+				<h6>Sexual Orientation</h6><br>
+					<label for="sexual_orientation" style="height: 100px;">
+						<i class="fas fa-gender"></i>
 					</label>
+					<input type="radio" name="sexual_orientation" id="straight" value="straight"> Straight </input><br>
+					<label for="sexual_orientation" style="height: 100px;">
+					<i class="fas fa-gender"></i>
+					</label>
+					<input type="radio" name="sexual_orientation" id="gay" value="gay"> Gay </input><br>
 				<input type="text" name="bio" placeholder="bio" id="bio" style="height: 100px;" required>
 				<br>
 				<h6>My Interest</h6><br>
@@ -48,13 +55,13 @@
 					<label for="age" style="height: 100px;">
 						<i class="fas fa-genderless"></i>
 					</label>
-						<input type="radio" name="age2" id="age2"> 26 - 35 </input><br>
+						<input type="radio"  name="age2" id="age2"> 26 - 35 </input><br>
 					<label for="age" style="height: 100px;">
 						<i class="fas fa-genderless"></i>
 					</label>
-						<input type="radio" name="age3" id="age3"> 36 - 50 </input><br>
+						<input type="radio"  name="age3" id="age3"> 36 - 50 </input><br>
 				<div class="msg">{{ msg }}</div>
 				<input type="submit" value="Edit">
 			</form> 
-		</div>
+		</div>	
 {% endblock %}

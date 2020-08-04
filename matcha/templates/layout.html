@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	</head>
 	<body>
         <header id="header" class="dark">
@@ -48,7 +49,7 @@
                               <li><a href="{{url_for('chat')}}"> Chat <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('map_func')}}"> Location <i class="fa fa-map-marker"></i></a></li>
                               <li><a href="{{url_for('login')}}"> Logout <i class="fa fa-indicator"></i></a></li>
-                              <!-- <span class="dot" style="background-color: green; height: 15px;width: 15px;border-radius: 50%;display: inline-block;"></span> -->
+                              <span class="dot" style="background-color: green; height: 15px;width: 15px;border-radius: 50%;display: inline-block;"></span>
                               {% else %}
                               <li><a href="{{url_for('home')}}"> Home <i class="fa fa-indicator"></i></a></li>
                               <span class="dot" style="background-color: red; height: 15px; width: 15px; border-radius: 50%; display: inline-block;"></span>
@@ -77,6 +78,23 @@
             </div>
           </div>
         </footer>
+        <script>
+          $("input:checkbox").on('click', function() {
+  // in the handler, 'this' refers to the box clicked on
+  var $box = $(this);
+  if ($box.is(":checked")) {
+    // the name of the box is retrieved using the .attr() method
+    // as it is assumed and expected to be immutable
+    var group = "input:checkbox[name='" + $box.attr("name") + "']";
+    // the checked state of the group/box on the other hand will change
+    // and the current value is retrieved using .prop() method
+    $(group).prop("checked", false);
+    $box.prop("checked", true);
+  } else {
+    $box.prop("checked", false);
+  }
+});
+        </script>
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/jquery/popper.min.js')}}"></script>
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/bootstrap/bootstrap-select.min.js')}}"></script> 
         <script type="text/javascript" src="{{ url_for('static' ,filename='js/jquery/jquery.appear.js')}}"></script>  
