@@ -32,6 +32,8 @@ h6.title2{font-size:26px; line-height:32px;}
 .title2 > label{color:#ffbc05; font-weight:600;}
 
 
+#notification_count{visibility: hidden;}
+
 hr { margin: 0; padding: 0px; border-bottom:1px solid #e0e0e0; border-top: 0px; }
 label {font-weight: 400; color: #aaaaaa; }
 .label { color: #fff !important; font-size: 9px !important; }

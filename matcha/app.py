@@ -10,6 +10,9 @@ import re
 import os
 import secrets
 import hashlib
+from datetime import datetime
+from time import time
+import json
 
 
 UPLOAD_FOLDER = 'static/pictures/'
@@ -64,8 +67,7 @@ def login():
     )''')
     print("Table created: profiles")
 
-    cursor.execute('''
-   CREATE TABLE IF NOT EXISTS images(
+    cursor.execute('''CREATE TABLE IF NOT EXISTS images(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         user_id INT(11) NOT NULL,
         image_path VARCHAR(500) NOT NULL,
@@ -73,8 +75,7 @@ def login():
     )''')
     print("Table created: images")
 
-    cursor.execute('''
-   CREATE TABLE IF NOT EXISTS popularity(
+    cursor.execute('''CREATE TABLE IF NOT EXISTS popularity(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         profile_id INT(11) NOT NULL,
         upvote INT NOT NULL DEFAULT '1',
@@ -82,16 +83,39 @@ def login():
     )''')
     print("Table created: popularity")
 
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS likes(
+    cursor.execute('''CREATE TABLE IF NOT EXISTS likes(
         id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
         user_id INT(11) NOT NULL,
         profile_id INT(100) NOT NULL,
         action TINYINT(1) DEFAULT '0',
+        ts DATETIME,
         FOREIGN KEY(user_id) REFERENCES accounts(id),
         FOREIGN KEY(profile_id) REFERENCES accounts(id)
     )''')
     print("Table created: likes")
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS messages(
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        user_id INT(11) NOT NULL,
+        profile_id INT(100) NOT NULL,
+        body VARCHAR(149),
+        ts DATETIME,
+        FOREIGN KEY(user_id) REFERENCES accounts(id),
+        FOREIGN KEY(profile_id) REFERENCES accounts(id)
+    )''')
+    print("Table created: messages")
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS notifications(
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        user_id INT(11) NOT NULL UNIQUE,
+        name_of VARCHAR(128),
+        ts FLOAT DEFAULT CURRENT_TIME,
+        payload_json TEXT,
+        FOREIGN KEY(user_id) REFERENCES accounts(id)
+    )''')
+    print("Table created: notifications")
+
+    
 
 
     # Check if "username" and "password" POST requests exist (user submitted form)
@@ -656,11 +680,14 @@ def home():
         #select likes all likes for table
         if request.method == 'POST' and 'like' in request.form:
             # store in variable
+        
             action = request.form['like'] #todo
             action = 1
+            now = datetime.now()
+            formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
         
             cursor.execute(
-                'INSERT INTO likes VALUES (NULL,%s, %s, %s)', (user_id, profile_id, action,)
+                'INSERT INTO likes VALUES (NULL,%s, %s, %s, %s)', (user_id, profile_id, action, formatted_date)
             )
             mysql.connection.commit()
         elif request.method == 'POST' and 'dislike' in request.form:
