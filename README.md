@@ -71,3 +71,12 @@ go to your browser and paste
   -- Validators
 
   -- User Account Managers
+
+
+  # TODO
+
+  - forces user to fill in extended profile before viewing matches
+  - geolocation // can force user to enter location and query using similar location
+  - online and last seen status
+  - person who visited your profile
+  - block user and not appearing in search

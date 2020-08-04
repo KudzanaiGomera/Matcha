@@ -354,9 +354,6 @@ form .form-group textarea { resize: vertical; }
 .divider, .divider-2, .divider-3{position: relative; display: inline-block; padding-bottom: 20px;}
 .divider, .divider-2{padding-bottom: 35px;}
 .divider:before, .divider-2:before, .divider-3:before{content: ""; position: absolute;  bottom:0; display: inline-block; left: 50%; margin-left: -118px;}
-.divider:before{background: url(../images/divider-skin-default.png) no-repeat 0 0; width: 236px; height: 18px;}
-.divider-2:before{background: url(../images/divider-customizer-2/divider-skin-default.png) no-repeat 0 0; width: 236px; height: 25px;}
-.divider-3:before{background: url(../images/divider-customizer-3/divider-skin-default.png) no-repeat 0 0; margin-left: -48px; width: 97px; height: 3px;}
 .text-left .divider:before, .text-left .divider-2:before, .text-left .divider-3:before{left: 0; margin-left: 0;}
 .text-right .divider:before, .text-right .divider-2:before, .text-right .divider-3:before{left: inherit; margin-left: 0; right: 0;}
 

@@ -10,6 +10,14 @@
         {% endfor %}
     </div>
         <span><h4 class="account-heading">{{ username }}</h4></span> 
+    {% for row in tags %}
+    <div class="single-img" style="justify-content: center;"><br>
+    <h1 style="color: pink;">About Me</h1>
+    <span><h6 class="account-heading">{{ row['gender'] }}</h6></span>
+    <span><h6 class="account-heading">{{ row['sexual_orientation'] }}</h6></span>
+    <span><h6 class="account-heading">{{ row['bio'] }}</h6></span>
+    </div>
+    {% endfor %}
     </div>
 </div>
 <div class="content-section2">
@@ -41,6 +49,10 @@
             <img  src="{{ url_for('static', filename='pictures/' + row['image_path'])}}" alt="No image uploaded...">
         </div>
          {% endfor %}
+    </div>
+</div>
+<div class= "wrapper">
+    <div class="">
     </div>
 </div>
 {% endblock content %}

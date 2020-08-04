@@ -10,6 +10,11 @@ import re
 import os
 import secrets
 import hashlib
+import requests
+import time
+import datetime
+import json
+
 
 
 UPLOAD_FOLDER = 'static/pictures/'
@@ -24,6 +29,9 @@ app.config['MYSQL_DB'] = 'matcha'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 mysql = MySQL(app)
 socketio = SocketIO(app)
+
+URL = "https://geocode.search.hereapi.com/v1/geocode"
+api_key = 'tBIW-X-kr-_ZlNYQda54YJzoRZh6TpVHmwQUxDt-_rc' # Acquire from developer.here.com
 
 @app.route('/matcha/', methods=['GET', 'POST'])
 def login():
@@ -88,10 +96,29 @@ def login():
         user_id INT(11) NOT NULL,
         profile_id INT(100) NOT NULL,
         action TINYINT(1) DEFAULT '0',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY(user_id) REFERENCES accounts(id),
         FOREIGN KEY(profile_id) REFERENCES accounts(id)
     )''')
     print("Table created: likes")
+
+    cursor.execute('''CREATE TABLE IF NOT EXISTS notification(
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(128),
+        user_id INT(100) NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        payload_json TEXT,
+        FOREIGN KEY(user_id) REFERENCES accounts(id)
+    )''')
+    print("Table created: notifications")
+
+    cursor.execute('''CREATE TABLE IF NOT EXISTS location(
+        id INT(11) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        user_id INT(100) NOT NULL,
+        location VARCHAR(250) NULL DEFAULT 'pretoria',
+        FOREIGN KEY(user_id) REFERENCES accounts(id)
+    )''')
+    print("Table created: location")
 
 
     # Check if "username" and "password" POST requests exist (user submitted form)
@@ -239,31 +266,6 @@ def forget_pwd():
         msg = 'Please fill out the form! ...'
     # Show registration form with message (if any)
     return render_template('forget_pwd.html', msg=msg)
-
-
-# @app.route('/matcha/reset', methods=['GET', 'POST'])
-# def reset():
-#     # Output message if something goes wrong...
-#     msg = ''
-#     # User is loggedin show them the home page so they can change infomation on their profile
-#     if request.method == 'POST' 'password' in request.form:
-#         #Create variables for easy access
-#         password = request.form['password']
-#         email = request.form['email'] #todo
-#         # user_id = session['id']
-#         #check if the above already exits in the databasse
-#         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-#         cursor.execute(
-#             'UPDATE profiles SET password=%s WHERE user_id=%s', (password, user_id,))
-#         mysql.connection.commit()
-#         msg = 'You have successfully reset your password'
-#         return redirect(url_for('login'))
-
-#     elif request.method == 'POST':
-#         msg = 'Please fill out the form! ...'
-#     return render_template('reset.html', msg=msg)
-
-
 
 # http://localhost:5000/matcha/extended_profile - this will be the page the user is directed to complete his or her profile, we need to use both GET and POST requests
 
@@ -494,6 +496,7 @@ def profile():
     # Check if user is loggedin
     record = ''
     profile = ''
+    tags = ''
     if 'loggedin' in session:
         
         user_id = session['id']
@@ -511,44 +514,44 @@ def profile():
         # Fetch all record and return result
         profile = cursor.fetchall()
 
+        #for profiles tags
+        cursor.execute(
+            'SELECT * FROM profiles WHERE user_id=%s', (user_id,))
+        # Fetch all record and return result
+        tags = cursor.fetchall()
+        print (tags)
+
         # User is loggedin show them the home page so they can check their profile
-        return render_template('profile.html', username=session['username'], user_id=user_id, record=record,  profile=profile)
+        return render_template('profile.html', username=session['username'], user_id=user_id, record=record,  profile=profile, tags=tags)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
     
-@app.route('/matcha/user_profile')
+@app.route('/matcha/user_profile', methods=(['GET', 'POST']))
 def user_profile():
     # Check if user is loggedin
     record = ''
     profile = ''
+    tags = ''
+    profile_id = request.args.get('profile_id')
+    print(profile_id)
     if 'loggedin' in session:
-        
-        user_id = session['id']
-        username = session['username']
-
-     
-     # Check if account exists using MySQL
+        #Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute(
-            'SELECT * FROM images WHERE user_id=%s', (user_id,))
-        # Fetch all record and return result
-        record = cursor.fetchall()
-        
         #for profile picture
         cursor.execute(
-            'SELECT * FROM accounts WHERE id=%s', (user_id,))
+            'SELECT username, picture, gender, bio, sexual_orientation FROM `accounts`, `profiles` WHERE accounts.id= user_id AND accounts.id = %s', (profile_id,))
         # Fetch all record and return result
         profile = cursor.fetchall()
+        print(profile)
 
-        #for profiles tags eg bio
         cursor.execute(
-             'SELECT * FROM profiles WHERE user_id=%s', (user_id,)
-        )
-        record2 = cursor.fetchall()
+            'SELECT * FROM images WHERE user_id=%s', (profile_id,))
+            # Fetch all record and return result
+        record = cursor.fetchall()
 
         # User is loggedin show them the home page so they can check their profile
-        return render_template('user_profile.html', username=session['username'], user_id=user_id, record=record,  profile=profile, record2=record2)
+        return render_template('user_profile.html', record=record,  profile=profile)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
@@ -561,6 +564,7 @@ def preferences():
     if 'loggedin' in session:
         # User is loggedin show them the home page
         user_id = session['id']
+        status = 'Active...'
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         if request.method == 'POST':
             if 'nature' in request.form:
@@ -603,37 +607,15 @@ def preferences():
                     'SELECT username, picture, user_id FROM accounts, profiles WHERE accounts.id = user_id AND profiles.age3=%s',(1,))
                 # Fetch all record and return result
                 profile = cursor.fetchall()
-            # print(profile)
-        # if request.method == 'POST':
-        #     profile_id = request.form['profile_id']
-        # for row in profile:
-        #     profile_id = row['id'] #TODO
-        #select likes all likes for table
-        # if request.method == 'POST' and 'like' in request.form:
-            # store in variable
-            # action = request.form['like'] #todo
-        #     action = 1
-        
-        #     cursor.execute(
-        #         'INSERT INTO likes VALUES (NULL,%s, %s, %s)', (user_id, profile_id, action,)
-        #     )
-        #     mysql.connection.commit()
-        # elif request.method == 'POST' and 'dislike' in request.form:
-        #     action = request.form['dislike']
-        #     action = 0
-
-        #     cursor.execute(
-        #         'DELETE FROM likes WHERE profile_id=%s', (profile_id,)
-        #     )
-        #     mysql.connection.commit()
-        return render_template('preferences.html', username=session['username'], profile=profile)
+            if 'location' in request.form:
+                location = request.form['location']
+                cursor.execute(
+                    'SELECT username, picture, user_id FROM accounts, location WHERE accounts.id = user_id AND location.location=%s',(location,))
+                # Fetch all record and return result
+                profile = cursor.fetchall()
+        return render_template('preferences.html', username=session['username'], profile=profile, status=status)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
-
-       
-
-
-
 
 @app.route('/matcha/home', methods=['GET', 'POST'])
 def home():
@@ -641,6 +623,7 @@ def home():
     if 'loggedin' in session:
         # User is loggedin show them the home page
         user_id = session['id']
+        status = 'Active...'
      # Check if account exists using MySQL
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #for profile picture
@@ -648,20 +631,18 @@ def home():
             'SELECT username, picture, profile_id, COUNT(*) FROM accounts, popularity WHERE accounts.id = profile_id GROUP BY profile_id ORDER BY COUNT(*) DESC', ())
         # Fetch all record and return result
         profile = cursor.fetchall()
-        print(profile)
         
         if request.method == 'POST':
             profile_id = request.form['profile_id']
-        # for row in profile:
-        #     profile_id = row['id'] #TODO
-        #select likes all likes for table
+
+        #get likes value from form
         if request.method == 'POST' and 'like' in request.form:
             # store in variable
-            action = request.form['like'] #todo
+            action = request.form['like']
             action = 1
         
             cursor.execute(
-                'INSERT INTO likes VALUES (NULL,%s, %s, %s)', (user_id, profile_id, action,)
+                'INSERT INTO likes VALUES (NULL,%s, %s, %s, NULL)', (user_id, profile_id, action, ) #silenced the error not fixed
             )
             mysql.connection.commit()
         elif request.method == 'POST' and 'dislike' in request.form:
@@ -675,12 +656,6 @@ def home():
         
         if request.method == 'POST':
             profile_id = request.form['profile_id']
-
-        # cursor.execute(
-        #     'SELECT COUNT(*) FROM `popularity` WHERE profile_id=%s', (profile_id,))
-        # # Fetch all record and return result
-        # counter = cursor.fetchall()
-        # print(counter)
         
 
         if request.method == 'POST' and 'upvote' in request.form:
@@ -693,7 +668,7 @@ def home():
             )
             mysql.connection.commit()
 
-        return render_template('home.html', username=session['username'], profile=profile)
+        return render_template('home.html', username=session['username'], profile=profile, status=status)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
@@ -716,7 +691,6 @@ def Does_not_exists():
 @app.route('/matcha/verify')
 def verify():
     # Output message if something goes wrong...
-    # TODO
     return render_template('verify.html')
 
 @app.route('/matcha/chatpage')
@@ -742,7 +716,6 @@ users = {}
 @app.route('/matcha/messages')
 def messages():
     if 'loggedin' in session:
-    #socketio.emit('server orginated', 'Something happened on the server!')
         return render_template('messages.html', username=session['username']) 
 
 @socketio.on('message from user', namespace='/messages')
@@ -753,8 +726,6 @@ def receive_message_from_user(message):
 @socketio.on('username', namespace='/private')
 def receive_username(username):
     users[username] = request.sid
-    #users.append({username : request.sid})
-    #print(users)
     print('Username added!')
 
 @socketio.on('private_message', namespace='/private')
@@ -764,6 +735,49 @@ def private_message(payload):
 
     emit('new_private_message', message, room=recipient_session_id)
 
+
+@app.route('/matcha/map', methods=['GET', 'POST'])
+def map_func():
+    longitude = ''
+    latitude = ''
+    if 'loggedin' in session:
+        user_id = session['id']
+        if request.method in 'POST':
+            # location = input("Enter the location here: ") #taking user input
+            location = request.form['location']
+            # location = location.lower
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(
+            'SELECT * FROM location WHERE user_id = %s', (user_id,))
+            location2 = cursor.fetchone()
+            # check if location is set then update it
+            if location2:
+                cursor.execute(
+                'UPDATE location SET location=%s WHERE user_id=%s',(location,user_id,)
+                )
+                mysql.connection.commit()
+            
+            else:
+                # check if location is not set then insert it
+                cursor.execute(
+                    'INSERT INTO location VALUES (NULL, %s, %s)',(user_id, location,)
+                )
+                mysql.connection.commit()
+                print (location)
+            PARAMS = {'apikey':api_key,'q':location} 
+
+            # sending get request and saving the response as response object 
+            r = requests.get(url = URL, params = PARAMS) 
+            data = r.json()
+            #print(data)
+
+            #Acquiring the latitude and longitude from JSON 
+            latitude = data['items'][0]['position']['lat']
+            #print(latitude)
+            longitude = data['items'][0]['position']['lng']
+            #print(longitude)
+        return render_template('map.html',apikey=api_key,latitude=latitude,longitude=longitude)
+    
 if __name__ == '__main__':
     app.secret_key = "kudzanai123456789gomera"
     app.run(debug=True)

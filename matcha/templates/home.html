@@ -3,6 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<p class="account-heading" style="text-align: center;">Status , {{ status }}</p>
 <p class="account-heading" style="text-align: center;">Welcome , {{ username }}!</p>
 <div class="wrapper">
     <h3>Users</h3>
@@ -22,6 +23,10 @@
                 </form>
                 <form action="{{url_for('home')}}" method="post"> 
                     <input type="checkbox" name="upvote"> Upvote
+                    <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
+                </form>
+                <form action="{{url_for('user_profile', profile_id="profile_id")}}" method="get"> 
+                    <input type="checkbox" name="view"> View
                     <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
                 </form>
         </div>

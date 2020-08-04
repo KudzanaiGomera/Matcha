@@ -7,30 +7,16 @@
     <div class="media" style="display: block;">
         {% for row in profile %}
         <img class="rounded-circle account-img" src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
-        {% endfor %}
     </div>
-    {% for row in profile %}
-        <span><h4 class="account-heading">{{ row['username'] }}</h4></span> 
-    {% endfor %}
+        <span><h4 class="account-heading">{{ username }}</h4></span>
+    <div class="single-img" style="justify-content: center;">
+    <br><h1 style="color: pink;">About Me</h1>
+    <span><h6 class="account-heading">{{ row['gender'] }}</h6></span>
+    <span><h6 class="account-heading">{{ row['sexual_orientation'] }}</h6></span>
+    <span><h6 class="account-heading">{{ row['bio'] }}</h6></span>
     </div>
-</div>
-<div class="content-section">
-        
-        {% for row in record2 %}
-        <div class="single-img">
-            <span><h6 class="account-heading">{{ row['gender'] }}</h6></span>
-            <span><h6 class="account-heading">{{ row['sexual_orientation'] }}</h6></span>
-            <span><h6 class="account-heading">{{ row['bio'] }}</h6></span>
-            <span><h6 class="account-heading">{{ row['listofinterest'] }}</h6></span>
-        </div>
-         {% endfor %}
+ {% endfor %}
     </div>
-</div>
-<div class="content-section2">
-    <div class="media2" >
-   
-    </div>
-</div>
 </div>
 <div class="wrapper">
     <h3>Gallery</h3>
