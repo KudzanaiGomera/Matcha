@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}Upload Profile Picture{% endblock %}
+
+{% block content %}
+<div class="upload">
+<h3>Upload Profile Picture</h3>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="image">
+      <input type="submit">
+    </form>
+</div>
+{% endblock %}

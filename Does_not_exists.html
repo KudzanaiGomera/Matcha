@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}Does not exists{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    <div class="img-area">
+       <h3 style="text-align: center; font-size: medium; color: crimson; margin-top: 200px;">l'm Sorry Your account doesn't exist, please try another email</h3><br>
+      </div>
+       <p style="text-align: center; font-size: medium; color: crimson; margin-top: 200px;">Oops you go back<a href="{{ url_for('login') }}">Login</a>.</p>
+</div>
+{% endblock %}

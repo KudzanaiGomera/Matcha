@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<div class="content-section">
+    <div class="media" style="display: block;">
+        {% for row in profile %}
+        <img class="rounded-circle account-img" src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
+    </div>
+        <span><h4 class="account-heading">{{ username }}</h4></span>
+    <div class="single-img" style="justify-content: center;">
+    <br><h1 style="color: pink;">About Me</h1>
+    <span><h6 class="account-heading">{{ row['gender'] }}</h6></span>
+    <span><h6 class="account-heading">{{ row['sexual_orientation'] }}</h6></span>
+    <span><h6 class="account-heading">{{ row['bio'] }}</h6></span>
+    </div>
+ {% endfor %}
+    </div>
+</div>
+<div class="wrapper">
+    <h3>Gallery</h3>
+    <div class="img-area">
+         {% for row in record %}
+        <div class="single-img">
+            <img  src="{{ url_for('static', filename='pictures/' + row['image_path'])}}" alt="No image uploaded...">
+        </div>
+         {% endfor %}
+    </div>
+</div>
+{% endblock content %}
