@@ -15,7 +15,7 @@ import requests
 import time
 import datetime
 import json
-import dbconnection
+# import dbconnection
 
 
 
@@ -183,6 +183,7 @@ def register():
         vk = hashlib.md5(username.encode())
         vkey = vk.hexdigest()
         upvote = 1
+        user_valid = 0
 
         picture = 'profile.jpg'
      # Check if account exists using MySQL
@@ -204,7 +205,7 @@ def register():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute(
-                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s)', (username, firstname, lastname, hashed, email,vkey,picture,))
+                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s, %s,%s,%s)', (username, firstname, lastname, hashed, email,vkey,picture,user_valid,))
             mysql.connection.commit()
 
             #sending email
@@ -688,6 +689,40 @@ def home():
             mysql.connection.commit()
 
         return render_template('home.html', username=session['username'], profile=profile, status=status)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+
+@app.route('/matcha/user_info', methods=['GET', 'POST'])
+def user_info():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        user_id = session['id']
+        status = 'Active...'
+     # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #for profile picture
+        cursor.execute(
+            'SELECT username, picture, profile_id, COUNT(*) FROM accounts, popularity WHERE accounts.id = profile_id GROUP BY profile_id ORDER BY COUNT(*) DESC', ())
+        # Fetch all record and return result
+        profile = cursor.fetchall()
+        
+        if request.method == 'POST':
+            profile_id = request.form['profile_id']
+
+        #get likes value from form
+        if request.method == 'POST' and 'like' in request.form:
+            # store in variable
+            action = request.form['like']
+            action = 1
+        
+            cursor.execute(
+                'INSERT INTO likes VALUES (NULL,%s, %s, %s, NULL)', (user_id, profile_id, action, ) #silenced the error not fixed
+            )
+            mysql.connection.commit()
+        
+        return render_template('user_info.html', username=session['username'], profile=profile, status=status)
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 

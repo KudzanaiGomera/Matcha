@@ -42,6 +42,7 @@
                             <ul class="menu-links">
                               {% if session['loggedin'] == True %}
                               <li><a href="{{url_for('home')}}"> Home <i class="fa fa-indicator"></i></a></li>
+                              <li><a href="{{url_for('user_info')}}"> Info <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('preferences')}}"> Preferences<i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('profile')}}"> Uploads <i class="fa fa-indicator"></i></a></li>
                               <li><a href="{{url_for('extended_profile')}}"> Extended Profile <i class="fa fa-indicator"></i></a></li>
