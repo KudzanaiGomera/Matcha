@@ -704,7 +704,7 @@ def user_info():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #for profile picture
         cursor.execute(
-            'SELECT username, picture, profile_id, COUNT(*) FROM accounts, popularity WHERE accounts.id = profile_id GROUP BY profile_id ORDER BY COUNT(*) DESC', ())
+            'SELECT username, picture, profile_id FROM accounts, likes WHERE accounts.id = user_id', ())
         # Fetch all record and return result
         profile = cursor.fetchall()
         
@@ -738,7 +738,7 @@ def user_conn():
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         #for profile picture
         cursor.execute(
-            'SELECT username, picture, profile_id, COUNT(*) FROM accounts, popularity WHERE accounts.id = profile_id GROUP BY profile_id ORDER BY COUNT(*) DESC', ())
+            'SELECT username, picture, profile_id FROM accounts, likes WHERE accounts.id = user_id', ())
         # Fetch all record and return result
         profile = cursor.fetchall()
       
