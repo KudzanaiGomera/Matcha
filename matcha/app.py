@@ -727,6 +727,26 @@ def user_info():
     return redirect(url_for('login'))
 
 
+@app.route('/matcha/user_conn', methods=['GET', 'POST'])
+def user_conn():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        user_id = session['id']
+        status = 'Active...'
+     # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #for profile picture
+        cursor.execute(
+            'SELECT username, picture, profile_id, COUNT(*) FROM accounts, popularity WHERE accounts.id = profile_id GROUP BY profile_id ORDER BY COUNT(*) DESC', ())
+        # Fetch all record and return result
+        profile = cursor.fetchall()
+      
+        return render_template('user_conn.html', username=session['username'], profile=profile, status=status)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+
 @app.route('/matcha/check_email')
 def check_email():
     return render_template('check_email.html')
