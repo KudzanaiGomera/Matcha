@@ -1,42 +1,4 @@
-/*
 
-Template: Cupid Love Dating HTML5 Template
-Author: potenzaglobalsolutions.com
-Version: 1.0  
-Design and Developed by: potenzaglobalsolutions.com
-
-NOTE:  
-
-*/
-
-/*================================================
-[  Table of contents  ]
-================================================
-
-:: Predefined Variables
-:: Preloader
-:: Mega menu
-:: Counter
-:: Accordion
-:: Owl carousel
-:: Isotope
-:: Mgnific Popup
-:: Masonry
-:: Progressbar
-:: Parallax
-:: PHP contact form 
-:: Countdown
-:: Back to top
-:: FullScreen
-:: Textrotator
-:: Stepwizard
-:: Range Slider
-:: POTENZA Window load and functions
-
-======================================
-[ End table content ]
-======================================*/
- 
 //POTENZA var
 var POTENZA = {};
  
@@ -71,15 +33,6 @@ $.fn.exists = function () {
 	return this.length > 0;
 };
 
- /*************************
-        Preloader
-*************************/  
-  POTENZA.preloader = function () {
-       $("#load").fadeOut();
-       $('#preloader').delay(0).fadeOut('slow');
-   };
-	
-
 /*************************
        Mega menu
 *************************/    
@@ -113,23 +66,6 @@ $.fn.exists = function () {
       });
   }
  
-
- /*************************
-       counter
-*************************/  
-
-  POTENZA.counters = function () {
-          if ($counter.exists()) {
-              $counter.each(function () {
-                  var $elem = $(this);                 
-                      $elem.appear(function () {
-                          $elem.find('.timer').countTo();
-                      });                  
-              });
-          }
-  };
-
-
 /*************************
       Accordion
 *************************/
@@ -402,54 +338,6 @@ POTENZA.textrotatefn = function () {
     }
   };
 
- /*************************
-       Stepwizard
-*************************/  
-
-POTENZA.stepwizard = function () {
-  if ($(".stepwizard").exists()) {
-     var navListItems = $('.step-form div.setup-panel div a'),
-         allWells = $('.step-form .setup-content'),
-         allNextBtn = $('.step-form .nextBtn');
-         allWells.hide();
-
-  navListItems.on('click', function (e) {
-      e.preventDefault();
-      var $target = $($(this).attr('href')),
-              $item = $(this);
-
-      if (!$item.is('[disabled=disabled]')) {
-          navListItems.removeClass('active');
-          $item.addClass('active completed');
-          allWells.hide();
-          $target.show();
-          $target.find('input:eq(0)').focus();
-      }
-       return false;
-  });
-
-  allNextBtn.on('click', function () {
-      var curStep = $(this).closest(".setup-content"),
-          curStepBtn = curStep.attr("id"),
-          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
-          isValid = true;
-
-      $(".step-form .form-group").removeClass("has-error");
-      for(var i=0; i<curInputs.length; i++){
-          if (!curInputs[i].validity.valid){
-              isValid = false;
-              $(curInputs[i]).closest(".form-group").addClass("has-error");
-          }
-      }
-
-      if (isValid)
-          nextStepWizard.removeAttr('disabled').trigger('click');
-        return false;
-        });
-       $('.step-form div.setup-panel div a.btn-circle').trigger('click');
-     }
-  };
 
  /*************************
        Range Slider
@@ -463,19 +351,6 @@ POTENZA.rangeslider = function () {
     }
   };
 
-
-/****************************************************
-     POTENZA Window load and functions
-****************************************************/
-
-  //Window load functions
-    $window.load(function () {
-          POTENZA.preloader(),
-          POTENZA.Isotope(),
-		      POTENZA.masonry(),
-		      POTENZA.progressBar();
-    });
-
  //Document ready functions
     $document.ready(function () {
         POTENZA.megaMenu(),
@@ -485,30 +360,12 @@ POTENZA.rangeslider = function () {
     		POTENZA.Parallax(),
     		POTENZA.Contactform(),
     		POTENZA.countdownTimer(),
-    		POTENZA.goToTop(),
-        POTENZA.mediaPopups(),
+    		POTENZA.goToTop()
         POTENZA.screenSizeControl(),
         POTENZA.textrotatefn(),
-        POTENZA.rangeslider(),
-        POTENZA.stepwizard(),
+        POTENZA.rangeslider()
         POTENZA.countdownTimer();
     });
 
-    $window.resize(function() {
-       POTENZA.screenSizeControl();
-    });
-
-
 })(jQuery);
-
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/5efae8734a7c6258179b96fe/default';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-
 

@@ -192,18 +192,18 @@
 }
 @media screen and (min-width: 993px) {
   .mega-menu .menu-links > li.activeTrigger {
-    background-color: #ffd200;
+    background-color: #fc766aff;
   }
 }
 .mega-menu .menu-links > li.active a {
   /*------------------------------------- ACTIVE CLASS MENU LINKS */
  background-color: transparent;
- color: #ffd200;
+ color: #fc766aff;
 }
 .mega-menu .menu-links > li:hover {
   /*-------------------------------------- HOVER MENU LINKS */
   background-color: transparent;
-  color: #ffd200;
+  color: #fc766aff;
 }
 .mega-menu .menu-links > li > a {
   margin: 0;
@@ -217,7 +217,7 @@
   position: relative;
   text-transform: capitalize;
 }
-.mega-menu .menu-links > li > a:hover { color: #ffd200; }
+.mega-menu .menu-links > li > a:hover { color: #fc766aff; }
 @media screen and (max-width: 992px) {
   .mega-menu .menu-links > li > a {
     width: auto;
@@ -360,7 +360,7 @@
   line-height: 50px;
 }
 .mega-menu .menu-search-bar li:hover i.fa.fa-search {
-  background: #ffd200;
+  background: #7e7c72;
 }
 .mega-menu .menu-search-bar input {
   max-width: 0;
@@ -378,7 +378,7 @@
 }
 .mega-menu .menu-search-bar input:focus {
   max-width: 170px;
-  background: #ffd200;
+  background: #fc766aff;
   padding-left: 20px;
 }
 @media screen and (max-width: 992px) {
@@ -521,7 +521,7 @@
     display: block !important;
     opacity: 0;
     visibility: hidden;
-    border-top: 5px solid #ffd200;
+    border-top: 5px solid #fc766aff;
     box-shadow: 0 0px 0px 1px rgba(0, 0, 0, 0.05);
     border-bottom: 0px; 
   }
@@ -553,14 +553,14 @@
   background:none;
 }
 .mega-menu .drop-down-multilevel li:hover > a {
-  color: #ffd200;
+  color: #fc766aff;
 }
 .mega-menu .drop-down-multilevel li:hover > a i.fa {
-  color: #ffd200;
+  color: #fc766aff;
 }
 @media screen and (min-width: 993px) {
   .mega-menu .drop-down-multilevel li.activeTrigger {
-    background: #ffd200;
+    background: #fc766aff;
   }
   .mega-menu .drop-down-multilevel li.activeTrigger > a {
     color: #ffffff;
@@ -571,7 +571,7 @@
 }
 @media screen and (max-width: 992px) {
   .mega-menu .drop-down-multilevel li.activeTriggerMobile {
-    background: #ffd200;
+    background: #fc766aff;
   }
   .mega-menu .drop-down-multilevel li.activeTriggerMobile > a {
     color: #ffffff;
@@ -581,7 +581,7 @@
   }
 }
 .mega-menu .menu-links > li.active .drop-down-multilevel a { color: #323232; }
-.mega-menu .menu-links > li.active .drop-down-multilevel a:hover { color: #ffd200; }
+.mega-menu .menu-links > li.active .drop-down-multilevel a:hover { color: #fc766aff; }
 .mega-menu .drop-down-multilevel a {
   margin: 0;
   padding: 8px 20px;
@@ -694,7 +694,7 @@
     display: block !important;
     opacity: 0;
     visibility: hidden;
-    border-top:5px solid #ffd200;
+    border-top:5px solid #fc766aff;
     border-radius: 0px !important;
 	background:rgba(21,21,21,0.9);
     box-shadow: 0 0px 0px 1px rgba(0, 0, 0, 0.05);
@@ -1192,7 +1192,7 @@
 .mega-menu .drop-down input[type="submit"],
 .mega-menu .drop-down input[type="button"],
 .mega-menu .drop-down-tab-bar input[type="submit"], .mega-menu .drop-down-tab-bar input[type="button"] {
-  background: #ffd200;
+  background: #fc766aff;
   padding: 10px 20px;
   margin: 5px 10px 0 0;
   line-height: 1.5em;
@@ -1233,7 +1233,7 @@
 
 .mega-menu .drop-down a:hover,
 .mega-menu .drop-down-tab-bar a:hover {
-  color: #ffd200;
+  color: #fc766aff;
 }
 .mega-menu .drop-down a i,
 .mega-menu .drop-down-tab-bar a i {
@@ -1246,7 +1246,7 @@
 
 .mega-menu .drop-down a:hover i,
 .mega-menu .drop-down-tab-bar a:hover i {
-  color: #ffd200;
+  color: #fc766aff;
 }
 
 @media screen and (max-width: 992px) {
@@ -1807,7 +1807,7 @@
   .mega-menu.vertical-right .menu-search-bar input, .mega-menu.vertical-right .menu-search-bar li, .mega-menu.vertical-right .menu-search-bar form, .mega-menu.vertical-right .menu-search-bar label {
     width: 100%;
     max-width: 100%;
-    background: #ffd200;
+    background: #fc766aff;
     -webkit-transition: none;
             transition: none;
   }
@@ -1898,7 +1898,7 @@
 .mega-menu.desktopTopFixed .menu-list-items .menu-logo > li > a img {height: 45px;}
 .mega-menu .menu-links > li > a { line-height:98px; text-transform: uppercase; font-size: 14px; font-weight:500;}
 .mega-menu .menu-links > li > a:before, .mega-menu .menu-links > li.active > a:before{-webkit-transition: all 0.7s ease-out 0s; -moz-transition: all 0.7s ease-out 0s; -ms-transition: all 0.7s ease-out 0s; -o-transition: all 0.7s ease-out 0s;
-  transition: all 0.7s ease-out 0s; color: #ffbc05; content: "\f004"; font-family: FontAwesome; font-size:14px; left: 50%;
+  transition: all 0.7s ease-out 0s; color: #fc766aff; content: "\f004"; font-family: FontAwesome; font-size:14px; left: 50%;
   position: absolute; top:-30px; transform:translateX(-50%); opacity: 0;}
 .mega-menu .menu-links > li > a:hover:before{opacity: 1;}
 .mega-menu .drop-down-multilevel.right-menu { right: 0px; }

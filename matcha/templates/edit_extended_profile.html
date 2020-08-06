@@ -27,7 +27,7 @@
 					<label for="bio" style="height: 100px;">
 					<i class="fas fa-genderless"></i>
 					</label>
-				<input type="text" name="bio" placeholder="bio" id="bio" style="height: 100px;">
+				<input type="text" name="bio" placeholder="bio" id="bio" style="height: 100px;" required>
 				<br>
 				<h6>My Interest</h6><br>
 				<label for="interest" style="height: 100px;">
@@ -50,7 +50,7 @@
 					<i class="fas fa-genderless"></i>
 				</label>
 					<input type="checkbox" name="memes" id="memes"> Memes </input><br>
-				<h6>Preferred Age Range</h6><br>
+				<h6>Age Range</h6><br>
 				<label for="age" style="height: 100px;">
 					<i class="fas fa-genderless"></i>
 				</label>
@@ -64,7 +64,7 @@
 					</label>
 						<input type="radio" name="age3" id="age3"> 36 - 50 </input><br>
 				<div class="msg">{{ msg }}</div>
-				<input type="submit" value="Save">
-			</form> 
+				<input type="submit" value="Edit">
+			</form>
 		</div>
 {% endblock %}

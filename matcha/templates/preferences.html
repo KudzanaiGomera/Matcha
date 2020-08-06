@@ -51,7 +51,7 @@
             </label>
                 <input type="radio" name="age3" id="age3"> 36 - 50 </input><br>
         <div class="msg">{{ msg }}</div>
-        <input type="submit" value="Search">
+        <input type="submit" value="Edit">
     </form> 
     <form action="{{ url_for('preferences') }}" method="post">
         <h6>Location</h6><br>
@@ -60,7 +60,7 @@
         </label>
             <input type="text" name="location" id="location"> Location </input><br>
     <div class="msg">{{ msg }}</div>
-    <input type="submit" value="Search">
+    <input type="submit" value="Edit">
     </form>
 </div>
 {% endblock %}
