@@ -177,6 +177,7 @@ def register():
         password = request.form['password']
         hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         email = request.form['email']
+        user_valid = 0
         
         #generate vkey
         v = username
@@ -204,11 +205,11 @@ def register():
         else:
             # Account doesnt exists and the form data is valid, now insert new account into accounts table
             cursor.execute(
-                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s)', (username, firstname, lastname, hashed, email,vkey,picture,))
+                'INSERT INTO accounts VALUES (NULL,%s, %s, %s, %s, %s,%s,%s,%s)', (username, firstname, lastname, hashed, email,vkey,picture,user_valid,))
             mysql.connection.commit()
 
             #sending email
-            message = MIMEText('<p>Click this link!<a href = "http://localhost:5000/matcha/home"> to verify account and login to your Account</a></p>', 'html')
+            message = MIMEText('<p>Click this link!<a href = "http://localhost:5000/matcha/index"> to verify account and login to your Account</a></p>', 'html')
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             # make sure to change this part last parameter which is your password and as well the first which is the email
@@ -256,7 +257,7 @@ def forget_pwd():
                  mysql.connection.commit()
 
             #sending email
-            message = MIMEText('<p>Click this link!<a href = "http://localhost:5000/matcha/home"> to reset your password click this link and login</a></p>', 'html')
+            message = MIMEText('<p>Click this link!<a href = "http://localhost:5000/matcha/"> to reset your password click this link and login</a></p>', 'html')
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
             # make sure to change this part last parameter which is your password and as well the first which is the email
@@ -356,57 +357,76 @@ def edit_extended_profile():
     msg = ''
     print("Here1")
         # User is loggedin show them the home page so they can change infomation on their profile
+    user_id = session['id']
         #Create variables for easy access
     if request.method == 'POST':
-        user_id = session['id']
-        if 'gender' in request.form:
-            gender = request.form['gender']
-        if 'sexual_orientation' in request.form:
-            sexual_orientation = request.form['sexual_orientation']
-        else:
-            sexual_orientation = 'bisexual'
-        if 'bio' in request.form:
-            bio = request.form['bio']
-        if 'nature' in request.form:
-            nature = 0
-        else:
-            nature = 1
-        if 'art' in request.form:
-            art = 0
-        else:
-            art = 1
-        if 'music' in request.form:
-            music = 0
-        else:
-            music = 1
-        if 'sports' in request.form:
-            sports = 0
-        else:
-            sports = 1
-        if 'memes' in request.form:
-            memes = 0
-        else:
-            memes = 1
-        if 'age1' in request.form:
-            age1 = 0
-        else:
-            age1 = 1
-        if 'age2' in request.form:
-            age2 = 0
-        else:
-            age2 = 1
-        if 'age3' in request.form:
-            age3 = 0
-        else:
-            age3 = 1
-            
-            #check if the above already exits in the databasse
         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
         cursor.execute(
-            'UPDATE profiles SET gender=%s, sexual_orientation=%s, bio=%s, nature=%s, art=%s, music=%s, sports=%s, memes=%s, age1=%s, age2=%s, age3=%s WHERE user_id=%s ', (gender, sexual_orientation, bio, nature, art, music, sports, memes, age1, age2, age3, user_id,))
-        mysql.connection.commit()
-        msg = 'You have successfully edit your profile'
-        return redirect(url_for('profile'))
+        'SELECT * FROM profiles WHERE user_id = %s', (user_id,))
+        profile = cursor.fetchall()
+
+        for row in profile:
+            print("id =", row['gender'],)
+            print("bio =", row['bio'], )
+            print("sexual_orientation =", row['sexual_orientation'], )
+
+            gender = row['gender']
+            print(gender)
+            sexual_orientation = row['sexual_orientation']
+            print(sexual_orientation)
+            bio = row['bio']
+            print(bio)
+
+            #print('id', row[2][5])
+            
+            if 'gender' in request.form:
+                gender = request.form['gender']
+            if 'sexual_orientation' in request.form:
+                sexual_orientation = request.form['sexual_orientation']
+            # else:
+            #     sexual_orientation = 'bisexual'
+            if 'bio' in request.form:
+                bio = request.form['bio']
+            if 'nature' in request.form:
+                nature = 0
+            else:
+                nature = 1
+            if 'art' in request.form:
+                art = 0
+            else:
+                art = 1
+            if 'music' in request.form:
+                music = 0
+            else:
+                music = 1
+            if 'sports' in request.form:
+                sports = 0
+            else:
+                sports = 1
+            if 'memes' in request.form:
+                memes = 0
+            else:
+                memes = 1
+            if 'age1' in request.form:
+                age1 = 0
+            else:
+                age1 = 1
+            if 'age2' in request.form:
+                age2 = 0
+            else:
+                age2 = 1
+            if 'age3' in request.form:
+                age3 = 0
+            else:
+                age3 = 1
+                
+                #check if the above already exits in the databasse
+            cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+            cursor.execute(
+                'UPDATE profiles SET gender=%s, sexual_orientation=%s, bio=%s, nature=%s, art=%s, music=%s, sports=%s, memes=%s, age1=%s, age2=%s, age3=%s WHERE user_id=%s ', (gender, sexual_orientation, bio, nature, art, music, sports, memes, age1, age2, age3, user_id,))
+            mysql.connection.commit()
+            msg = 'You have successfully edit your profile'
+            return redirect(url_for('profile'))
 
     elif request.method == 'POST':
             msg = 'Please fill out the form! ...'
@@ -691,6 +711,58 @@ def home():
     # User is not loggedin redirect to login page
     return redirect(url_for('login'))
 
+@app.route('/matcha/user_info', methods=['GET', 'POST'])
+def user_info():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        user_id = session['id']
+        status = 'Active...'
+     # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #for profile picture
+        cursor.execute(
+            'SELECT username, picture, profile_id FROM accounts, likes WHERE accounts.id = user_id', ())
+        # Fetch all record and return result
+        profile = cursor.fetchall()
+        
+        if request.method == 'POST':
+            profile_id = request.form['profile_id']
+
+        #get likes value from form
+        if request.method == 'POST' and 'like' in request.form:
+            # store in variable
+            action = request.form['like']
+            action = 1
+        
+            cursor.execute(
+                'INSERT INTO likes VALUES (NULL,%s, %s, %s, NULL)', (user_id, profile_id, action, ) #silenced the error not fixed
+            )
+            mysql.connection.commit()
+        
+        return render_template('user_info.html', username=session['username'], profile=profile, status=status)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
+
+
+@app.route('/matcha/user_conn', methods=['GET', 'POST'])
+def user_conn():
+    # Check if user is loggedin
+    if 'loggedin' in session:
+        # User is loggedin show them the home page
+        user_id = session['id']
+        status = 'Active...'
+     # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        #for profile picture
+        cursor.execute(
+            'SELECT username, picture, profile_id FROM accounts, likes WHERE accounts.id = user_id', ())
+        # Fetch all record and return result
+        profile = cursor.fetchall()
+      
+        return render_template('user_conn.html', username=session['username'], profile=profile, status=status)
+    # User is not loggedin redirect to login page
+    return redirect(url_for('login'))
 
 @app.route('/matcha/check_email')
 def check_email():

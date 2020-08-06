@@ -9,26 +9,32 @@
     <h3>Users</h3>
     <div class="img-area">
         {% for row in profile %}
-        <div class="single-img">
-            <img src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="No profile Picture"><br>
-            <a href="{{url_for('user_profile')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['username'] }}</h4></span></a>
-            <!-- <a href="{{url_for('user_profile')}}"><span><h4 class="account-heading" style="text-align: center;">{{ row['profile_id'] }}</h4></span></a> -->
-                <form action="{{url_for('home')}}" method="post"> 
-                        <input type="checkbox" name="like"> Like
-                        <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
-                </form>
-                <form action="{{url_for('home')}}" method="post"> 
-                    <input type="checkbox" name="dislike"> Dislike
-                    <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
-                </form>
-                <form action="{{url_for('home')}}" method="post"> 
-                    <input type="checkbox" name="upvote"> Upvote
-                    <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
-                </form>
-                <form action="{{url_for('user_profile', profile_id="profile_id")}}" method="get"> 
-                    <input type="checkbox" name="view"> View
-                    <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
-                </form>
+        <div class="card">
+          <img src="{{ url_for('static', filename='profile_pic/' + row['picture'])}}" alt="image" style="width:300px; height:350px">
+          <h1>{{ row['username'] }}</h1> 
+          <form action="{{url_for('home')}}" method="post">
+            <input type="checkbox" name="like" id="like">
+            <label for="like"><i class="fa fa-heart"></i></label>
+            <input type="submit" name="profile_id" value="{{ row['profile_id'] }}" id="profile_id">
+          </form>
+          <form action="{{url_for('home')}}" method="post">
+            <input type="checkbox" name="dislike" id="unlike">
+            <label for="unlike"><i class="fa fa-thumbs-o-down"></i></label>
+            <input type="submit" name="profile_id" value="{{ row['profile_id'] }}" id="profile_id">
+          </form>
+          <form action="{{url_for('home')}}" method="post">
+            <input type="checkbox" name="upvote" id="vote">
+            <label for="vote"><i class="fa fa-star"></i></label>
+            <input type="submit" name="profile_id" value="{{ row['profile_id'] }}" id="profile_id">
+          </form>
+          <button>
+              <form action="{{url_for('user_profile', profile_id="profile_id")}}" method="get"> 
+                <input type="checkbox" name="view" id="view">
+                <label for="view"><i class="fa fa-eye"></i></label>
+                <input type="submit" name="profile_id" value="{{  row['profile_id'] }}" id="profile_id">
+            </form>
+            </i>
+          </button>
         </div>
         {% endfor %}
       </div>
