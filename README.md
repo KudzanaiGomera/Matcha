@@ -6,52 +6,54 @@
 
   Go to : 
   
-# Windows: run these commads
+# Windows: run these commads on cmd as administrator
 
-> git clone https://github.com/KudzanaiGomera/Matcha.git
+- git clone https://github.com/KudzanaiGomera/Matcha.git
 
-> cd to Matcha directory
+- cd to Matcha directory
 
-> cd matcha
+- cd matcha
 
-> pip install flask
+- pip install -r requirements.txt
 
-> pip install flask-socketio
+- python app.py  
 
-> pip install flask-mail
-
-> pip install email
-
-> pip install bcrypt
-
-> python app.py  
-or 
-> python .\app.py
+# Client Side
 
 go to your browser and paste
 
-> http://127.0.0.1:5000/matcha
+- http://127.0.0.1:5000/matcha
 
  
 # Mac/Linux: run these commads
 
->$ git clone https://github.com/KudzanaiGomera/Matcha.git
+-  git clone https://github.com/KudzanaiGomera/Matcha.git
 
->$ cd to Matcha directory
+- cd to Matcha directory
 
->$ cd matcha
+- cd matcha
 
->$ pip install flask
+- pip install -r requirements.txt
 
->$ pip install flask-socketio
+- python app.py 
 
->$ python app.py  
-or 
->$ python ./app.py
+# Client Sid
 
 go to your browser and paste
 
->$ http://127.0.0.1:5000/matcha
+- $ http://127.0.0.1:5000/matcha
+
+# !important
+
+- incase in linux (ubuntu specifically) you face an issue installing packages eg mysqlcient complaining run the following command
+
+- sudo apt-get install libmysqlclient-dev
+
+then
+
+- pip install -r requirements.txt
+
+- python app.py
   
 
   Enjoy!
