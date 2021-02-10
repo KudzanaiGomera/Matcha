@@ -213,9 +213,9 @@ def register():
             message = MIMEText("<p>Click this link!<a href = 'http://localhost:5000/matcha/home?vkey={}'> to verify account and login to your Account</a></p>".format(vkey), 'html')
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            # make sure to change this part last parameter which is your password and as well the first which is the email
-            server.login('matchamatcha23@gmail.com', 'Hacker23') #'email''pwd'
-            server.sendmail('matchamatcha23@gmail.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
+            # make sure to change this part last parameter which is your password and as well the first which is the the email DOMAIN
+            server.login('example@gmail.com', 'PSWD') #'email''pwd'
+            server.sendmail('example@gmail.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
             msg = 'You have successfully registered!'
             return redirect(url_for('check_email'))
             # return render_template('check_email.html', vkey=vkey,email=email)
@@ -262,9 +262,9 @@ def forget_pwd():
             message = MIMEText('<p>Click this link!<a href = "http://localhost:5000/matcha/"> to reset your password click this link and login</a></p>', 'html')
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.starttls()
-            # make sure to change this part last parameter which is your password and as well the first which is the email
-            server.login('matchamatcha23@gmail.com', 'Hacker23') #'email''pwd'
-            server.sendmail('matchamatcha23@gmail.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
+            # make sure to change this part last parameter which is your password and as well the first which is the email DOMAIN
+            server.login('example@gmail.com', 'PSWD') #'email''pwd'
+            server.sendmail('example@gmail.com', email, message.as_string())#'email' #also change the first parameter whcih is the default sending email
             msg = 'You have successfully registered!'
             return redirect(url_for('forget_pwd_check'))
 
